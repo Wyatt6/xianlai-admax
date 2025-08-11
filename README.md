@@ -14,3 +14,7 @@
 
 本仓库是前端部分，后端请去往：[https://github.com/Wyatt6/xianlai-admax-system](https://github.com/Wyatt6/xianlai-admax-system)
 
+## 技术栈
+
+![](./docs/techstack_vue.svg) ![](./docs/techstack_element-plus.svg) ![](./docs/techstack_vite.svg) ![](./docs/techstack_vue-router.svg) ![](./docs/techstack_pinia.svg) ![](./docs/techstack_sass.svg) ![](./docs/techstack_eslint.svg) ![](./docs/techstack_prettier.svg) ![](./docs/techstack_axios.svg) ![](./docs/techstack_vite-awesome-svg-loader.svg)
+
