@@ -16,5 +16,5 @@ This repository is the front-end of XianLai - Admax, the back-end part sees: [ht
 
 ## Technology Stack
 
-![](/Users/wyatt/__我的文件__/XianLai/xianlai-admax/docs/techstack_vue.svg) ![](/Users/wyatt/__我的文件__/XianLai/xianlai-admax/docs/techstack_element-plus.svg) ![](/Users/wyatt/__我的文件__/XianLai/xianlai-admax/docs/techstack_vite.svg) ![](/Users/wyatt/__我的文件__/XianLai/xianlai-admax/docs/techstack_vue-router.svg) ![](/Users/wyatt/__我的文件__/XianLai/xianlai-admax/docs/techstack_pinia.svg) ![](/Users/wyatt/__我的文件__/XianLai/xianlai-admax/docs/techstack_sass.svg) ![](/Users/wyatt/__我的文件__/XianLai/xianlai-admax/docs/techstack_eslint.svg) ![](/Users/wyatt/__我的文件__/XianLai/xianlai-admax/docs/techstack_prettier.svg) ![](/Users/wyatt/__我的文件__/XianLai/xianlai-admax/docs/techstack_axios.svg) ![](/Users/wyatt/__我的文件__/XianLai/xianlai-admax/docs/techstack_vite-awesome-svg-loader.svg)
+![](./docs/techstack_vue.svg) ![](./docs/techstack_element-plus.svg) ![](./docs/techstack_vite.svg) ![](./docs/techstack_vue-router.svg) ![](./docs/techstack_pinia.svg) ![](./docs/techstack_sass.svg) ![](./docs/techstack_eslint.svg) ![](./docs/techstack_prettier.svg) ![](./docs/techstack_axios.svg) ![](./docs/techstack_vite-awesome-svg-loader.svg)
 
