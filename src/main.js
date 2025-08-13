@@ -1,3 +1,6 @@
+// 有坑：样式的引入需要放在前面
+import './index.scss'
+
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import App from './App.vue'
