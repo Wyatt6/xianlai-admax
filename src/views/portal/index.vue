@@ -53,7 +53,7 @@
       .cover-text {
         width: 80%;
         height: 10rem;
-        margin-top: 5rem;
+        margin-top: 9rem;
         cursor: default;
 
         .cover-title {
@@ -70,7 +70,7 @@
     }
 
     .input-box {
-      $--input-box-padding: 6rem;
+      $--input-box-padding: 7rem;
       padding: $--input-box-padding;
       width: calc($--main-card-width / 2 - 2 * $--input-box-padding);
       height: calc($--main-card-height - 2 * $--input-box-padding);
