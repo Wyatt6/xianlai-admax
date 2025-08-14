@@ -1,6 +1,6 @@
 const usernameValidator = () => {
   return (rule, value, callback) => {
-    const regexp = /^[a-zA-Z][a-zA-Z_0-9]{4,29}$/
+    const regexp = /^[a-zA-Z][a-zA-Z_0-9]{4,19}$/
     if (!regexp.test(value)) {
       callback(new Error('仅限大写、小写字母，数字，下划线(_)，必须以字母开头'))
     } else {
@@ -11,7 +11,7 @@ const usernameValidator = () => {
 
 const passwordValidator = () => {
   return (rule, value, callback) => {
-    const regexp = /^[a-zA-Z_0-9.~!@#$%^&*?]{6,50}$/
+    const regexp = /^[a-zA-Z_0-9.~!@#$%^&*?]{6,30}$/
     if (!regexp.test(value)) {
       callback(new Error('仅限大写、小写字母，数字，下划线(_)，特殊字符(.~!@#$%^&*?)'))
     } else {
