@@ -18,5 +18,13 @@ export default {
       url: `${USER}/login`,
       data
     })
+  },
+  resetPassword: (params, data) => {
+    return axios({
+      desc: '重置密码',
+      method: 'post',
+      url: `${USER}/resetPassword`,
+      data
+    })
   }
 }
