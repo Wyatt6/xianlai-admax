@@ -3,6 +3,7 @@ import Axios from 'axios'
 import { ElMessage } from 'element-plus'
 import RequestLogger from './request_logger'
 import Token from '@/utils/token'
+import Logger from '@/utils/logger'
 import { useAppStore } from '@/stores/app'
 
 /**
@@ -20,7 +21,7 @@ const axios = Axios.create({
 })
 
 // 添加请求拦截器
-axios.interceptors.request(
+axios.interceptors.request.use(
   /**
    * 在发送请求之前做些什么
    */
@@ -52,7 +53,7 @@ axios.interceptors.request(
 )
 
 // 添加响应拦截器
-axios.interceptors.response(
+axios.interceptors.response.use(
   /**
    * 2xx 范围内的状态码都会触发该函数
    * 仅代表了技术上成功返回（状态码2xx），但响应报文可能是业务成功处理，也可能是系统错误或者业务处理异常
@@ -110,13 +111,13 @@ axios.interceptors.response(
           message = '服务器内部错误'
           break
       }
-      Logger.receive.error(error, message)
+      RequestLogger.receive.error(error, message)
     } else if (error.request) {
       // 请求已经成功发起，但没有收到服务器响应
       if (error.code === 'ECONNABORTED') {
         message = '服务器连接超时'
       }
-      Logger.send.error(error, message)
+      RequestLogger.send.error(error, message)
     }
     ElMessage.error(message)
 
@@ -125,3 +126,5 @@ axios.interceptors.response(
     return Promise.reject(error)
   }
 )
+
+export default axios
