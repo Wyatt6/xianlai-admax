@@ -1,10 +1,10 @@
-import axios from '@/apis/axios'
+import request from '@/apis/request'
 
 const CAPTCHA = '/content/captcha'
 
 export default {
   getCaptcha: (params, data) => {
-    return axios({
+    return request({
       desc: '获取验证码',
       url: `${CAPTCHA}/getCaptcha`
     })

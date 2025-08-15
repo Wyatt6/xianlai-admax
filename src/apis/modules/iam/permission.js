@@ -1,10 +1,10 @@
-import axios from '@/apis/axios'
+import request from '@/apis/request'
 
 const PERMISSION = '/iam/permission'
 
 export default {
   addPermission: (params, data) => {
-    return axios({
+    return request({
       desc: '新增权限',
       method: 'post',
       url: `${PERMISSION}/addPermission`,
@@ -12,14 +12,14 @@ export default {
     })
   },
   deletePermission: (params, data) => {
-    return axios({
+    return request({
       desc: '删除权限',
       url: `${PERMISSION}/deletePermission`,
       params: { permissionId: params }
     })
   },
   editPermission: (params, data) => {
-    return axios({
+    return request({
       desc: '修改权限',
       method: 'post',
       url: `${PERMISSION}/editPermission`,
@@ -27,7 +27,7 @@ export default {
     })
   },
   getPermissionsByPage: (params, data) => {
-    return axios({
+    return request({
       desc: '查询权限分页',
       url: `${PERMISSION}/getPermissionsByPage`,
       params: {
@@ -37,7 +37,7 @@ export default {
     })
   },
   getPermissionsByPageConditionally: (params, data) => {
-    return axios({
+    return request({
       desc: '条件查询权限分页',
       method: 'post',
       url: `${PERMISSION}/getPermissionsByPageConditionally`,
@@ -45,20 +45,20 @@ export default {
     })
   },
   getPermissions: (params, data) => {
-    return axios({
+    return request({
       desc: '查询全量权限列表',
       url: `${PERMISSION}/getPermissions`
     })
   },
   getPermissionIdsOfRole: (params, data) => {
-    return axios({
+    return request({
       desc: '查询某角色所具有的权限ID列表',
       url: `${PERMISSION}/getPermissionIdsOfRole`,
       params: { roleId: params }
     })
   },
   getRowNumStartFrom1: (params, data) => {
-    return axios({
+    return request({
       desc: '查询权限的排名（从1开始）',
       url: `${PERMISSION}/getRowNumStartFrom1`,
       params: { permissionId: params }

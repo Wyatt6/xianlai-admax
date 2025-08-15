@@ -1,10 +1,10 @@
-import axios from '@/apis/axios'
+import request from '@/apis/request'
 
 const PROFILE = '/content/profile'
 
 export default {
   editProfile: (params, data) => {
-    return axios({
+    return request({
       desc: '修改个人信息',
       method: 'post',
       url: `${PROFILE}/editProfile`,
@@ -12,7 +12,7 @@ export default {
     })
   },
   getProfile: (params, data) => {
-    return axios({
+    return request({
       desc: '获取用户个人信息',
       url: `${PROFILE}/getProfile`,
       params: { userId: params }
