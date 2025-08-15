@@ -172,7 +172,7 @@ import AddPermission from './AddPermission.vue'
 import EditPermission from './EditPermission.vue'
 import PermissionConst from '@/constants/permission_const'
 import Storage from '@/utils/storage'
-import API from '@/api'
+import Apis from '@/apis'
 
 // ---------- 搜索表单数据定义 ----------
 const searched = ref(false)
@@ -217,7 +217,7 @@ watch(
 // ---------- 获取权限列表分页数据渲染表格 ----------
 const getListByPage = (num, size) => {
   // 注意：num是服务器页码，下标从0开始
-  return API.iam.permission
+  return Apis.iam.permission
     .getPermissionsByPage(num, size)
     .then(res => {
       if (res && res.success) {
@@ -262,7 +262,7 @@ const getListByPageConditionally = (num, size, condition) => {
   condition.pageNum = num
   condition.pageSize = size
   if (condition.type === '') condition.type = null
-  return API.iam.permission
+  return Apis.iam.permission
     .getPermissionsByPageConditionally(condition)
     .then(res => {
       if (res && res.success) {
@@ -337,7 +337,7 @@ const showAddPermission = ref(false)
 const afterAdd = async id => {
   formPageNum.value = 1
   // 获取新权限的排名
-  await API.iam.permission
+  await Apis.iam.permission
     .getRowNumStartFrom1(id)
     .then(res => {
       if (res && res.success) {
@@ -374,7 +374,7 @@ const onChangeStatus = row => {
   ElMessageBox.confirm(message, '请确认', { type: 'warning' })
     .then(() => {
       const input = { id: id, activated: !activated }
-      API.iam.permission
+      Apis.iam.permission
         .editPermission(input)
         .then(res => {
           if (res && res.success) {
@@ -432,7 +432,7 @@ const onDelete = row => {
   const message = '是否删除权限【' + identifier + (name ? ' / ' + name : '') + '】？'
   ElMessageBox.confirm(message, '请确认', { type: 'warning' })
     .then(() => {
-      API.iam.permission
+      Apis.iam.permission
         .deletePermission(id)
         .then(res => {
           if (res && res.success) {

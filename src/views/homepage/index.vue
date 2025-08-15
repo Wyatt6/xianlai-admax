@@ -38,9 +38,9 @@
 </template>
 
 <script setup>
-import carousel1 from '@/assets/img/carousel/carousel1.jpg'
-import carousel2 from '@/assets/img/carousel/carousel2.jpg'
-import carousel3 from '@/assets/img/carousel/carousel3.jpg'
+import carousel1 from '@/assets/images/carousel/carousel1.jpg'
+import carousel2 from '@/assets/images/carousel/carousel2.jpg'
+import carousel3 from '@/assets/images/carousel/carousel3.jpg'
 import SubscriptionCard from './components/SubscriptionCard.vue'
 import HelloCard from './components/HelloCard.vue'
 import { ref } from 'vue'
@@ -48,7 +48,7 @@ import { useAppStore } from '@/stores/app'
 import { ElMessage } from 'element-plus'
 import RoleConst from '@/constants/role_const'
 import AuthorizationService from '@/services/authorization_service'
-import API from '@/api'
+import Apis from '@/apis'
 
 const appStore = useAppStore()
 
@@ -72,7 +72,7 @@ const initSubscribed = async () => {
 initSubscribed()
 
 const ledgerSubscribe = () => {
-  API.ledger.basic
+  Apis.ledger.basic
     .subscribe()
     .then(async res => {
       if (res && res.success) {
@@ -96,7 +96,7 @@ const ledgerSubscribe = () => {
     })
 }
 const ledgerUnsubscribe = () => {
-  API.ledger.basic
+  Apis.ledger.basic
     .unsubscribe()
     .then(async res => {
       if (res && res.success) {

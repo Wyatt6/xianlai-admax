@@ -31,7 +31,7 @@
 <script setup>
 import { defineProps, defineEmits, ref, watch } from 'vue'
 import { ElMessage } from 'element-plus'
-import API from '@/api'
+import Apis from '@/apis'
 
 const props = defineProps({
   show: {
@@ -94,16 +94,18 @@ watch(
 // ----- 点击“确定” -----
 const onConfirm = () => {
   console.groupCollapsed('编辑权限')
-  formRef.value.validate(async (valid) => {
+  formRef.value.validate(async valid => {
     if (valid) {
       console.log('通过表单格式验证')
       loading.value = true
 
-      if (form.value.module === props.nowRow.module &&
+      if (
+        form.value.module === props.nowRow.module &&
         form.value.type === props.nowRow.type &&
         form.value.identifier === props.nowRow.identifier &&
         form.value.name === props.nowRow.name &&
-        form.value.remark === props.nowRow.remark) {
+        form.value.remark === props.nowRow.remark
+      ) {
         console.log('权限无修改')
         console.groupEnd()
         ElMessage.info('权限无修改')
@@ -119,8 +121,9 @@ const onConfirm = () => {
         name: form.value.name,
         remark: form.value.remark
       }
-      await API.iam.permission.editPermission(input)
-        .then((res) => {
+      await Apis.iam.permission
+        .editPermission(input)
+        .then(res => {
           if (res && res.success) {
             console.log('修改权限成功')
             ElMessage.success('保存成功')
@@ -137,7 +140,7 @@ const onConfirm = () => {
             }
           }
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error.message)
           ElMessage.error(error.message)
         })

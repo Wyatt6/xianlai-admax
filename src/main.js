@@ -1,12 +1,11 @@
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
-
 // 有坑：样式的引入需要放在前面
+import './index.scss' // 自定义全局样式
 import ElementPlus from 'element-plus'
 import zhCN from 'element-plus/es/locale/lang/zh-cn'
 import 'element-plus/dist/index.css'
-import './index.scss' // 自定义全局样式
 
+import { createApp } from 'vue'
+import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 

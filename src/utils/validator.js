@@ -1,8 +1,8 @@
 const usernameValidator = () => {
   return (rule, value, callback) => {
-    const regexp = /^[a-zA-Z_0-9]{3,16}$/
+    const regexp = /^[a-zA-Z][a-zA-Z_0-9]{4,19}$/
     if (!regexp.test(value)) {
-      callback(new Error('仅限大写、小写字母，数字，下划线（_）'))
+      callback(new Error('仅限大写、小写字母，数字，下划线(_)，必须以字母开头'))
     } else {
       callback()
     }
@@ -11,9 +11,9 @@ const usernameValidator = () => {
 
 const passwordValidator = () => {
   return (rule, value, callback) => {
-    const regexp = /^[a-zA-Z_0-9.~!@#$%^&*?]{6,16}$/
+    const regexp = /^[a-zA-Z_0-9.~!@#$%^&*?]{6,30}$/
     if (!regexp.test(value)) {
-      callback(new Error('仅限大写、小写字母，数字，特殊字符（_.~!@#$%^&*?）'))
+      callback(new Error('仅限大写、小写字母，数字，下划线(_)，特殊字符(.~!@#$%^&*?)'))
     } else {
       callback()
     }
@@ -53,10 +53,22 @@ const captchaValidator = () => {
   }
 }
 
+const emailCodeValidator = () => {
+  return (rule, value, callback) => {
+    const regexp = /^[a-zA-Z0-9]{6}$/
+    if (!regexp.test(value)) {
+      callback(new Error('邮件校验码格式不正确'))
+    } else {
+      callback()
+    }
+  }
+}
+
 export default {
   username: usernameValidator,
   password: passwordValidator,
   phone: phoneValidator,
   email: emailValidator,
-  captcha: captchaValidator
+  captcha: captchaValidator,
+  emailCode: emailCodeValidator
 }

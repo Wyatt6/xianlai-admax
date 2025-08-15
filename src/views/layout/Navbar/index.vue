@@ -49,7 +49,7 @@
 </template>
 
 <script setup>
-import failPicture from '@/assets/img/fail_picture.png'
+import failPicture from '@/assets/images/fail_picture.png'
 import Hamburger from '../components/Hamburger/index.vue'
 import Breadcrumb from '../components/Breadcrumb/index.vue'
 import { useAppStore } from '@/stores/app'
@@ -58,7 +58,7 @@ import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import RouteConst from '@/constants/route_const'
 import AuthorizationService from '@/services/authorization_service'
-import API from '@/api'
+import Apis from '@/apis'
 
 const appStore = useAppStore()
 const layoutStore = useLayoutStore()
@@ -78,7 +78,7 @@ const logout = async () => {
   console.groupCollapsed('退出登录')
 
   appStore.setLoggingOut(true)
-  await API.iam.user
+  await Apis.iam.user
     .logout()
     .then(async res => {
       if (res && res.success) {

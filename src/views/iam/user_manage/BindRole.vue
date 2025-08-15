@@ -1,24 +1,35 @@
 <template>
   <el-drawer :model-value="props.show" :title="title" size="50%" @close="onClose">
-    <el-table ref="tableRef" size="small" height="100%" border row-key="id" :data="formList"
-      :current-row-key="currRowKey" v-loading="loading" :row-style="rowColor">
+    <el-table
+      ref="tableRef"
+      size="small"
+      height="100%"
+      border
+      row-key="id"
+      :data="formList"
+      :current-row-key="currRowKey"
+      v-loading="loading"
+      :row-style="rowColor"
+    >
       <el-table-column type="selection" :selectable="selectable" align="center" width="35px" />
       <el-table-column label="角色标识" prop="identifier" />
       <el-table-column label="角色名称">
         <template #default="scope">
           <el-popover placement="left" effect="light" v-if="scope.row.remark && scope.row.remark.length > 0">
-            <template #reference><span style="cursor:default">{{ scope.row.name }}</span></template>
+            <template #reference
+              ><span style="cursor: default">{{ scope.row.name }}</span></template
+            >
             {{ scope.row.remark }}
           </el-popover>
-          <span v-else style="cursor:default">{{ scope.row.name }}</span>
+          <span v-else style="cursor: default">{{ scope.row.name }}</span>
         </template>
       </el-table-column>
       <el-table-column label="状态" align="center" width="60px">
         <template #default="scope">
-          <span v-if="scope.row.activated" style="color:#67C23A">
+          <span v-if="scope.row.activated" style="color: #67c23a">
             {{ '生效' }}
           </span>
-          <span v-else style="color:#F56C6C">
+          <span v-else style="color: #f56c6c">
             {{ '未生效' }}
           </span>
         </template>
@@ -38,7 +49,7 @@
 import { defineProps, defineEmits, ref, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import PermissionConst from '@/constants/permission_const'
-import API from '@/api'
+import Apis from '@/apis'
 
 const props = defineProps({
   show: {
@@ -63,8 +74,9 @@ const currRowKey = ref()
 const loading = ref(false)
 
 const getRoles = () => {
-  return API.iam.role.getRoles()
-    .then((res) => {
+  return Apis.iam.role
+    .getRoles()
+    .then(res => {
       if (res && res.success) {
         console.log('成功获取角色列表')
         return res.data
@@ -78,15 +90,16 @@ const getRoles = () => {
         }
       }
     })
-    .catch((error) => {
+    .catch(error => {
       console.log(error)
       ElMessage.error(error.message)
     })
 }
 
-const getRoleIdsOfUser = (id) => {
-  return API.iam.role.getRoleIdsOfUser(id)
-    .then((res) => {
+const getRoleIdsOfUser = id => {
+  return Apis.iam.role
+    .getRoleIdsOfUser(id)
+    .then(res => {
       if (res && res.success) {
         console.log('成功获取该用户的角色列表')
         return res.data
@@ -100,7 +113,7 @@ const getRoleIdsOfUser = (id) => {
         }
       }
     })
-    .catch((error) => {
+    .catch(error => {
       console.log(error)
       ElMessage.error(error.message)
     })
@@ -175,12 +188,13 @@ const onConfirm = async () => {
   }
 
   if (bindList.length + cancelList.length > 0) {
-    await API.iam.user.updateBinds({
-      userId: props.nowRow.id,
-      bind: bindList,
-      cancel: cancelList
-    })
-      .then(async (res) => {
+    await Apis.iam.user
+      .updateBinds({
+        userId: props.nowRow.id,
+        bind: bindList,
+        cancel: cancelList
+      })
+      .then(async res => {
         if (res && res.success) {
           const { failBind, failCancel } = res.data
           const failBindCnt = failBind ? failBind.length : 0
@@ -217,7 +231,7 @@ const onConfirm = async () => {
           }
         }
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error)
         ElMessage.error(error.message)
       })

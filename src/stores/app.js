@@ -24,6 +24,12 @@ export const useAppStore = defineStore('app', () => {
   function setLoggingOut(value) {
     loggingOut.value = value
   }
+  function setLogoutLock() {
+    loggingOut.value = true
+  }
+  function releaseLogoutLock() {
+    loggingOut.value = false
+  }
   // 设置hasAuthorizations值
   function setHasAuthorizations(value) {
     hasAuthorizations.value = value
@@ -64,7 +70,7 @@ export const useAppStore = defineStore('app', () => {
   /**
    * 初始化前端系统状态
    */
-  function init() {
+  async function init() {
     console.groupCollapsed('init: 初始化前端系统状态')
 
     console.log('清理state状态')
@@ -94,6 +100,8 @@ export const useAppStore = defineStore('app', () => {
     profile,
     setUser,
     setLoggingOut,
+    setLogoutLock,
+    releaseLogoutLock,
     setHasAuthorizations,
     setGettingAuthorizations,
     setAuthorizations,

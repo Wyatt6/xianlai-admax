@@ -34,7 +34,7 @@ import RouteConst from '@/constants/route_const.js'
 import { filterRoutes, generateMenus } from '@/utils/routes2menus'
 import MenuItem from '../components/MenuItem/index.vue'
 import Variables from '../index.module.scss'
-import logoUrl from '@/assets/img/logo.png'
+import logoUrl from '@/assets/images/logo.png'
 
 const layoutStore = useLayoutStore()
 const router = useRouter()

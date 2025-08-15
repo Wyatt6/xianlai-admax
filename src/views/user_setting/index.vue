@@ -54,14 +54,14 @@
 </template>
 
 <script setup>
-import failPicture from '@/assets/img/fail_picture.png'
+import failPicture from '@/assets/images/fail_picture.png'
 import ChangeAvatar from './ChangeAvatar.vue'
 import ChangePwd from './ChangePwd.vue'
 import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import AppConst from '@/constants/app_const'
 import Storage from '@/utils/storage'
-import API from '@/api'
+import Apis from '@/apis'
 import { useAppStore } from '@/stores/app'
 
 const appStore = useAppStore()
@@ -98,7 +98,7 @@ const saveProfile = () => {
   }
 
   profileForm.value.userId = appStore.user.id
-  API.content.profile
+  Apis.content.profile
     .editProfile(profileForm.value)
     .then(async res => {
       if (res && res.success) {

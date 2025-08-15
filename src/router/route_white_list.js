@@ -5,6 +5,7 @@ export const noLoginRequired = [
   RouteConst.PORTAL,
   RouteConst.LOGIN,
   RouteConst.REGISTER,
+  '/portal/reset-password',
   RouteConst.NOT_AUTHORIZED,
   RouteConst.NOT_AUTHORIZED_EMBEDDED,
   RouteConst.NOT_FOUND,

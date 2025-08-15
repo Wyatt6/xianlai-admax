@@ -36,7 +36,7 @@
 import { ref, defineProps, defineEmits, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import Validator from '@/utils/validator'
-import API from '@/api'
+import Apis from '@/apis'
 import { useAppStore } from '@/stores/app'
 
 const appStore = useAppStore()
@@ -118,7 +118,7 @@ const onConfirm = () => {
         oldPassword: form.value.oldPassword,
         newPassword: form.value.password1
       }
-      await API.iam.user
+      await Apis.iam.user
         .changePassword(input)
         .then(res => {
           if (res && res.success) {

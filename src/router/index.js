@@ -17,9 +17,6 @@ import UserManage from '@/views/iam/user_manage/index.vue'
 import RoleManage from '@/views/iam/role_manage/index.vue'
 import PermissionManage from '@/views/iam/permission_manage/index.vue'
 
-import LedgerDetail from '@/views/ledger/detail/index.vue'
-import LedgerSetting from '@/views/ledger/setting/index.vue'
-
 import UserSetting from '@/views/user_setting/index.vue'
 
 import Err401 from '@/views/errors/401.vue'
@@ -42,6 +39,11 @@ const routes = [
         path: RouteConst.REGISTER,
         name: 'register',
         component: Register
+      },
+      {
+        path: '/portal/reset-password',
+        name: 'resetPassword',
+        component: () => import('@/views/portal/reset_password/index.vue')
       }
     ]
   },
@@ -63,81 +65,6 @@ const routes = [
           title: '首页',
           icon: 'ri-home-4-fill'
         }
-      },
-      {
-        path: RouteConst.LEDGER,
-        redirect: RouteConst.LEDGER_REDIRECT,
-        name: 'menu_ledger',
-        component: Placeholder,
-        meta: {
-          isMenu: true,
-          isBreadcrumb: true,
-          breadcrumbRedirect: true,
-          title: '记账本 Ledger',
-          icon: 'ri-money-cny-circle-fill'
-        },
-        children: [
-          {
-            path: RouteConst.LEDGER_DASHBOARD,
-            name: 'menu_ledger_dashboard',
-            component: Placeholder,
-            meta: {
-              isMenu: true,
-              isBreadcrumb: true,
-              breadcrumbRedirect: true,
-              title: '数据看板',
-              icon: 'ri-bar-chart-2-fill'
-            }
-          },
-          {
-            path: RouteConst.LEDGER_DETAIL,
-            name: 'menu_ledger_detail',
-            component: LedgerDetail,
-            meta: {
-              isMenu: true,
-              isBreadcrumb: true,
-              breadcrumbRedirect: true,
-              title: '记账明细',
-              icon: 'ri-file-text-fill'
-            }
-          },
-          {
-            path: RouteConst.LEDGER_BUDGET,
-            name: 'menu_ledger_budget',
-            component: Placeholder,
-            meta: {
-              isMenu: true,
-              isBreadcrumb: true,
-              breadcrumbRedirect: true,
-              title: '预算管理',
-              icon: 'ri-shopping-cart-fill'
-            }
-          },
-          {
-            path: RouteConst.LEDGER_ASSETS,
-            name: 'menu_ledger_assets',
-            component: Placeholder,
-            meta: {
-              isMenu: true,
-              isBreadcrumb: true,
-              breadcrumbRedirect: true,
-              title: '资产盘点',
-              icon: 'ri-hand-coin-fill'
-            }
-          },
-          {
-            path: RouteConst.LEDGER_SETTING,
-            name: 'menu_ledger_setting',
-            component: LedgerSetting,
-            meta: {
-              isMenu: true,
-              isBreadcrumb: true,
-              breadcrumbRedirect: true,
-              title: '参数设置',
-              icon: 'ri-settings-3-fill'
-            }
-          }
-        ]
       },
       {
         path: RouteConst.IAM,

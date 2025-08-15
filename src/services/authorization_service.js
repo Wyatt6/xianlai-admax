@@ -2,7 +2,7 @@ import { ElMessage } from 'element-plus'
 import AppConst from '@/constants/app_const'
 import { useAppStore } from '@/stores/app'
 import Storage from '@/utils/storage'
-import API from '@/api'
+import Apis from '@/apis'
 
 /**
  * 获取用户授权数据
@@ -12,7 +12,7 @@ const getAuthorizations = async () => {
   console.groupCollapsed('getAuthorizations: 获取用户授权数据')
 
   appStore.setGettingAuthorizations(true)
-  await API.iam.user
+  await Apis.iam.user
     .getAuthorizations()
     .then(res => {
       if (res && res.success) {
@@ -49,7 +49,7 @@ const updateAuthorizations = async () => {
   let result = false
 
   appStore.setGettingAuthorizations(true)
-  await API.iam.user
+  await Apis.iam.user
     .updateAuthorizations()
     .then(res => {
       if (res && res.success) {
