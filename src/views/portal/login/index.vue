@@ -34,7 +34,7 @@
         <span class="sub-title-link">已有帐号，忘记密码？</span>
       </div>
     </div>
-    <el-button class="login-btn" type="primary" size="large" :loading="loading" @click="onLogin(selectedTabPane)">
+    <el-button class="login-btn" type="primary" size="large" :loading="loading" @click="onLogin">
       <span class="login-btn-label">登 录</span>
     </el-button>
   </div>
