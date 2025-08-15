@@ -4,11 +4,9 @@
       <div class="err-content">
         <div class="err-content__title">404 Not Found</div>
         <div class="err-content__headline">抱歉，找不到页面......</div>
-        <div class="err-content__info">
-          请检查您输入的URL是否正确，或单击下面的按钮返回主页。
-        </div>
+        <div class="err-content__info">请检查您输入的URL是否正确，或单击下面的按钮返回主页。</div>
         <el-button size="large" round type="primary" @click="router.go(-1)">返回之前的页面</el-button>
-        <el-button size="large" round @click="router.push(RouteConst.INDEX)">回到主页</el-button>
+        <el-button size="large" round @click="router.push('/')">回到主页</el-button>
       </div>
     </div>
   </div>
@@ -16,7 +14,6 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
-import RouteConst from '@/constants/route_const'
 const router = useRouter()
 </script>
 
@@ -31,35 +28,35 @@ const router = useRouter()
 }
 
 .err {
-  width: 400px;
+  width: 40rem;
   overflow: hidden;
 
   .err-content {
     position: relative;
     float: left;
-    width: 400px;
-    padding: 30px 0;
+    width: 40rem;
+    padding: 3rem 0;
     overflow: hidden;
 
     &__title {
-      font-size: 32px;
+      font-size: 3.2rem;
       font-weight: bold;
-      line-height: 40px;
+      line-height: 4rem;
       color: #1482f0;
       opacity: 0;
-      margin-bottom: 20px;
+      margin-bottom: 2rem;
       animation-name: slideUp;
       animation-duration: 0.5s;
       animation-fill-mode: forwards;
     }
 
     &__headline {
-      font-size: 20px;
-      line-height: 24px;
+      font-size: 2rem;
+      line-height: 2.4rem;
       color: #222;
       font-weight: bold;
       opacity: 0;
-      margin-bottom: 10px;
+      margin-bottom: 1rem;
       animation-name: slideUp;
       animation-duration: 0.5s;
       animation-delay: 0.1s;
@@ -67,11 +64,11 @@ const router = useRouter()
     }
 
     &__info {
-      font-size: 13px;
-      line-height: 21px;
+      font-size: 1.3rem;
+      line-height: 2.1rem;
       color: grey;
       opacity: 0;
-      margin-bottom: 30px;
+      margin-bottom: 3rem;
       animation-name: slideUp;
       animation-duration: 0.5s;
       animation-delay: 0.2s;
@@ -80,7 +77,7 @@ const router = useRouter()
 
     @keyframes slideUp {
       0% {
-        transform: translateY(60px);
+        transform: translateY(6rem);
         opacity: 0;
       }
 

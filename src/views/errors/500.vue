@@ -6,23 +6,27 @@
         <div class="err-content__headline">抱歉，连接服务器失败，请稍后重试......</div>
         <div class="err-content__info">请单击下面的按钮尝试重建连接。</div>
         <el-button type="primary" size="large" round @click="router.go(-1)">重新连接</el-button>
-        <el-button size="large" round @click="toLogin">重新登录</el-button>
+        <el-button size="large" round @click="reLogin">重新登录</el-button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { useAppStore } from '@/stores/app'
 import { useRouter } from 'vue-router'
-import RouteConst from '@/constants/route_const'
+import { useAppStore } from '~/stores/app'
 
 const appStore = useAppStore()
 const router = useRouter()
 
-const toLogin = async () => {
-  appStore.init()
-  router.push(RouteConst.LOGIN)
+/**
+ * 重新登录
+ */
+async function reLogin() {
+  appStore.setLogoutLock()
+  await appStore.initializeApp()
+  await router.push('/portal/login')
+  appStore.releaseLogoutLock()
 }
 </script>
 
@@ -36,35 +40,35 @@ const toLogin = async () => {
   justify-content: center;
 
   .err {
-    width: 400px;
+    width: 40rem;
     overflow: hidden;
 
     .err-content {
       position: relative;
       float: left;
-      width: 400px;
-      padding: 30px 0;
+      width: 40rem;
+      padding: 3rem 0;
       overflow: hidden;
 
       &__title {
-        font-size: 32px;
+        font-size: 3.2rem;
         font-weight: bold;
-        line-height: 40px;
+        line-height: 4rem;
         color: #1482f0;
         opacity: 0;
-        margin-bottom: 20px;
+        margin-bottom: 2rem;
         animation-name: slideUp;
         animation-duration: 0.5s;
         animation-fill-mode: forwards;
       }
 
       &__headline {
-        font-size: 20px;
-        line-height: 24px;
+        font-size: 2rem;
+        line-height: 2.4rem;
         color: #222;
         font-weight: bold;
         opacity: 0;
-        margin-bottom: 10px;
+        margin-bottom: 1rem;
         animation-name: slideUp;
         animation-duration: 0.5s;
         animation-delay: 0.1s;
@@ -72,11 +76,11 @@ const toLogin = async () => {
       }
 
       &__info {
-        font-size: 13px;
-        line-height: 21px;
+        font-size: 1.3rem;
+        line-height: 2.1rem;
         color: grey;
         opacity: 0;
-        margin-bottom: 30px;
+        margin-bottom: 3rem;
         animation-name: slideUp;
         animation-duration: 0.5s;
         animation-delay: 0.2s;
@@ -85,7 +89,7 @@ const toLogin = async () => {
 
       @keyframes slideUp {
         0% {
-          transform: translateY(60px);
+          transform: translateY(6rem);
           opacity: 0;
         }
 
