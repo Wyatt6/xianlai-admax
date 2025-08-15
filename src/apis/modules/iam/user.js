@@ -8,7 +8,7 @@ export default {
       desc: '注册新用户',
       method: 'post',
       url: `${USER}/register`,
-      data: params
+      data
     })
   },
   login: (params, data) => {
