@@ -16,5 +16,5 @@
 
 ## 前端技术栈
 
-![](./docs/techstack_vue.svg) ![](./docs/techstack_element-plus.svg) ![](./docs/techstack_vite.svg) ![](./docs/techstack_vue-router.svg) ![](./docs/techstack_pinia.svg) ![](./docs/techstack_sass.svg) ![](./docs/techstack_sass-loader.svg) ![](./docs/techstack_eslint.svg) ![](./docs/techstack_prettier.svg) ![](./docs/techstack_axios.svg) ![](./docs/techstack_vite-plugin-svg-icons.svg)
+![](./docs/techstack_vue.svg) ![](./docs/techstack_element-plus.svg) ![](./docs/techstack_vite.svg) ![](./docs/techstack_vue-router.svg) ![](./docs/techstack_pinia.svg) ![](./docs/techstack_sass.svg) ![](./docs/techstack_sass-loader.svg) ![](./docs/techstack_eslint.svg) ![](./docs/techstack_prettier.svg) ![](./docs/techstack_axios.svg) ![](./docs/techstack_vite-awesome-svg-loader.svg)
 
