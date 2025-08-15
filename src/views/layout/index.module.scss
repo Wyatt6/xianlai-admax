@@ -1,0 +1,42 @@
+// ---------- 菜单栏样式 ----------
+$--sidebar-width: 210px;
+$--sidebar-width-hidden: 50px;
+$--sidebar-transition-duration: 0.2s;
+$--sidebar-color: #304156;
+
+// ---------- 菜单样式 ----------
+$--menu-color: $--sidebar-color;
+$--menu-hover-color: #263445;
+$--menu-text-color: #8199b4; //#bfcbd9;
+$--menu-active-sub-menu-text-color: #ffffff;
+$--menu-active-text-color: #409eff;
+
+// ---------- 导航栏样式 ----------
+$--navbar-height: 46px;
+$--navbar-color: #ffffff;
+
+// ---------- 标签栏样式 ----------
+$--tagbar-height: 30px;
+$--tagbar-color: #ffffff;
+$--tagbar-active-tag-color: $--menu-active-text-color;
+
+// https://www.bluematador.com/blog/how-to-share-variables-between-js-and-sass
+// js与scss共享变量，在scss中通过:export进行导出，在js中可通过esm进行导入
+:export {
+  sidebarWidth: $--sidebar-width;
+  sidebarWidthHidden: $--sidebar-width-hidden;
+  sidebarTransitionDuration: $--sidebar-transition-duration;
+  sidebarColor: $--sidebar-color;
+
+  menuColor: $--menu-color;
+  menuHoverColor: $--menu-hover-color;
+  menuTextColor: $--menu-text-color;
+  menuActiveTextColor: $--menu-active-text-color;
+
+  navbarHeight: $--navbar-height;
+  navbarColor: $--navbar-color;
+
+  tagbarHeight: $--tagbar-height;
+  tagbarColor: $--tagbar-color;
+  tagbarActiveTagColor: $--tagbar-active-tag-color;
+}

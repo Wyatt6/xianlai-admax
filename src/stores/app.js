@@ -1,43 +1,105 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import AppConst from '@/constants/app_const'
 import Storage from '@/utils/storage'
-import Logger from '@/utils/logger'
+import { useLayoutStore } from './layout'
 
 export const useAppStore = defineStore('app', () => {
-  const logoutLock = ref(false)
+  const user = ref(Storage.get(AppConst.USER) == null ? {} : Storage.get(AppConst.USER))
+  const loggingOut = ref(false)
+  // 用户授权相关
+  const hasAuthorizations = ref(!(Storage.get(AppConst.AUTHORIZATIONS) == null))
+  const gettingAuthorizations = ref(false)
+  const authorizations = ref(Storage.get(AppConst.AUTHORIZATIONS) == null ? {} : Storage.get(AppConst.AUTHORIZATIONS))
+  // 用户信息相关
+  const hasProfile = ref(Storage.get(AppConst.PROFILE) == null)
+  const gettingProfile = ref(false)
+  const profile = ref(Storage.get(AppConst.PROFILE) == null ? {} : Storage.get(AppConst.PROFILE))
+
+  // 设置user值
+  function setUser(value) {
+    user.value = value
+  }
+  // 设置loggingOut值
+  function setLoggingOut(value) {
+    loggingOut.value = value
+  }
+  // 设置hasAuthorizations值
+  function setHasAuthorizations(value) {
+    hasAuthorizations.value = value
+  }
+  // 设置gettingAuthorizations值
+  function setGettingAuthorizations(value) {
+    gettingAuthorizations.value = value
+  }
+  // 存储授权数据
+  function setAuthorizations(authorizations) {
+    authorizations.value = authorizations
+  }
+  // 设置hasProfile值
+  function setHasProfile(value) {
+    hasProfile.value = value
+  }
+  // 设置gettingProfile值
+  function setGettingProfile(value) {
+    gettingProfile.value = value
+  }
+  // 存储个人信息
+  function setProfile(value) {
+    profile.value = value
+  }
+  // 初始化state状态
+  function initState() {
+    user.value = {}
+
+    hasAuthorizations.value = false
+    gettingAuthorizations.value = false
+    authorizations.value = {}
+
+    hasProfile.value = false
+    gettingProfile.value = false
+    profile.value = {}
+  }
 
   /**
-   * 退出登陆锁处理
+   * 初始化前端系统状态
    */
-  function setLogoutLock() {
-    logoutLock.value = true
-  }
-  function releaseLogoutLock() {
-    logoutLock.value = false
-  }
+  function init() {
+    console.groupCollapsed('init: 初始化前端系统状态')
 
-  function $reset() {
-    Logger.log('appStore.$reset()')
-  }
+    console.log('清理state状态')
+    initState()
+    useLayoutStore().initState()
 
-  /**
-   * 前端应用初始化
-   */
-  async function init() {
-    Logger.log('初始化前端应用状态值')
-    $reset()
-    Logger.log('清理浏览器无用的缓存值')
-    const username = Storage.get('remember_username')
+    console.log('清理浏览器缓存')
+    const username = Storage.get(AppConst.USERNAME)
+    const phone = Storage.get(AppConst.PHONE)
+    const email = Storage.get(AppConst.EMAIL)
     Storage.clear()
-    if (username != null) {
-      Storage.set('remember_username', username)
-    }
+    if (username != null) Storage.set(AppConst.USERNAME, username)
+    if (phone != null) Storage.set(AppConst.PHONE, phone)
+    if (email != null) Storage.set(AppConst.EMAIL, email)
+
+    console.groupEnd()
   }
 
   return {
-    logoutLock,
-    setLogoutLock,
-    releaseLogoutLock,
+    user,
+    loggingOut,
+    hasAuthorizations,
+    gettingAuthorizations,
+    authorizations,
+    hasProfile,
+    gettingProfile,
+    profile,
+    setUser,
+    setLoggingOut,
+    setHasAuthorizations,
+    setGettingAuthorizations,
+    setAuthorizations,
+    setHasProfile,
+    setGettingProfile,
+    setProfile,
     init
   }
 })

@@ -22,7 +22,7 @@ export default defineConfig({
   // 代理访问后端系统（开发测试用，build前需要删除或注释）
   server: {
     proxy: {
-      '/api/admax': {
+      '/api': {
         target: 'http://localhost:8080/',
         changeOrigin: true
       }
