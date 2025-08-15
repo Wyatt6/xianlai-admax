@@ -16,7 +16,7 @@ export default {
       desc: '用户登录（用户名+密码）',
       method: 'post',
       url: `${USER}/login`,
-      data: params
+      data
     })
   },
   logout: (params, data) => {
