@@ -174,7 +174,7 @@ import { Plus, Refresh, Search, Brush, Edit, Delete } from '@element-plus/icons-
 import Storage from '@/utils/storage'
 import { dateHyphenFormatter } from '@/utils/formatter'
 import { isEmpty, getDaysOfMonth } from '@/utils/common'
-import API from '@/api'
+import Apis from '@/apis'
 
 // ---------- 数据定义 ----------
 const PAGE_NUM_KEY = 'ledger.detail.pageNum'
@@ -228,7 +228,7 @@ const getSumConditionally = async () => {
     channelId: searchForm.value.channelId,
     description: searchForm.value.description
   }
-  const { debitSum, creditSum } = await API.ledger.journal
+  const { debitSum, creditSum } = await Apis.ledger.journal
     .getSumConditionally(condition)
     .then(res => {
       if (res && res.success) {
@@ -255,7 +255,7 @@ const getSumConditionally = async () => {
 // ----- 获取分类树 -----
 const categoryTree = ref([])
 const getCategoryTree = async () => {
-  await API.ledger.category
+  await Apis.ledger.category
     .getCategoryTree()
     .then(res => {
       if (res && res.success) {
@@ -286,7 +286,7 @@ const treeProps = ref({
 // ----- 获取分类列表 -----
 const categoryObjs = ref({})
 const getCategories = async () => {
-  const { categories } = await API.ledger.category
+  const { categories } = await Apis.ledger.category
     .getCategories()
     .then(res => {
       if (res && res.success) {
@@ -323,7 +323,7 @@ const getCategoryName = id => {
 const channelList = ref([])
 const channelObjs = ref({})
 const getChannels = async () => {
-  const { channels } = await API.ledger.channel
+  const { channels } = await Apis.ledger.channel
     .getChannels()
     .then(res => {
       if (res && res.success) {
@@ -362,7 +362,7 @@ const getListByPageConditionally = (num, size, condition) => {
   // 注意：num是服务器页码，下标从0开始
   condition.pageNum = num
   condition.pageSize = size
-  return API.ledger.journal
+  return Apis.ledger.journal
     .getJournalsByPageConditionally(condition)
     .then(res => {
       if (res && res.success) {
@@ -517,7 +517,7 @@ const onAdd = () => {
   showDrawer.value = true
 }
 const addCallback = async input => {
-  await API.ledger.journal
+  await Apis.ledger.journal
     .addJournal(input)
     .then(async res => {
       if (res && res.success) {
@@ -547,7 +547,7 @@ const onEdit = row => {
   showDrawer.value = true
 }
 const editCallback = async input => {
-  await API.ledger.journal
+  await Apis.ledger.journal
     .editJournal(input)
     .then(async res => {
       if (res && res.success) {
@@ -572,7 +572,7 @@ const editCallback = async input => {
 
 // ---------- 删除 ----------
 const onDelete = row => {
-  API.ledger.journal
+  Apis.ledger.journal
     .deleteJournal(row.id)
     .then(res => {
       if (res && res.success) {

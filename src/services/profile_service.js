@@ -2,7 +2,7 @@ import { ElMessage } from 'element-plus'
 import AppConst from '@/constants/app_const'
 import { useAppStore } from '@/stores/app'
 import Storage from '@/utils/storage'
-import API from '@/api'
+import Apis from '@/apis'
 
 /**
  * 获取用户个人信息
@@ -12,7 +12,7 @@ const getProfile = async userId => {
   console.groupCollapsed('getProfile: 获取用户个人信息')
 
   appStore.setGettingProfile(true)
-  await API.content.profile
+  await Apis.content.profile
     .getProfile(userId)
     .then(res => {
       if (res && res.success) {

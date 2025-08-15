@@ -3,8 +3,15 @@
     <el-button size="small" type="primary" :icon="Plus" @click="onAdd()">新增</el-button>
     <el-button size="small" type="success" :icon="Refresh" @click="refresh()">刷新</el-button>
     <div class="table-wrapper">
-      <el-table height="100%" stripe v-loading="loading" row-key="id" highlight-current-row
-        :current-row-key="currRowKey" :data="list">
+      <el-table
+        height="100%"
+        stripe
+        v-loading="loading"
+        row-key="id"
+        highlight-current-row
+        :current-row-key="currRowKey"
+        :data="list"
+      >
         <el-table-column label="序号" align="center" width="100" type="index" />
         <el-table-column label="动账渠道" prop="name" />
         <el-table-column label="状态" align="center" width="100">
@@ -39,7 +46,7 @@
 import { ref } from 'vue'
 import { Plus, Refresh, Open, TurnOff, Edit, Top, Bottom, Delete } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import API from '@/api'
+import Apis from '@/apis'
 
 const currRowKey = ref()
 const loading = ref(false)
@@ -48,8 +55,9 @@ const loading = ref(false)
 const list = ref([])
 const getChannels = async () => {
   loading.value = true
-  const { channels } = await API.ledger.channel.getChannels()
-    .then((res) => {
+  const { channels } = await Apis.ledger.channel
+    .getChannels()
+    .then(res => {
       if (res && res.success) {
         console.log('成功获取动账渠道列表')
         return res.data
@@ -63,7 +71,7 @@ const getChannels = async () => {
         }
       }
     })
-    .catch((error) => {
+    .catch(error => {
       console.log(error)
       ElMessage.error(error.message)
     })
@@ -73,14 +81,15 @@ const getChannels = async () => {
 getChannels()
 
 // ---------- 点击“新增” ----------
-const onAdd = async (id) => {
+const onAdd = async id => {
   ElMessageBox.prompt('请输入动账渠道名称：', '添加动账渠道', { draggable: true })
-    .then(async (input) => {
+    .then(async input => {
       const form = {}
       form.name = input.value
       form.activated = 1
-      await API.ledger.channel.addChannel(form)
-        .then(async (res) => {
+      await Apis.ledger.channel
+        .addChannel(form)
+        .then(async res => {
           if (res && res.success) {
             console.log('成功添加动账渠道')
             ElMessage.success('添加成功')
@@ -98,7 +107,7 @@ const onAdd = async (id) => {
             }
           }
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error)
           ElMessage.error(error.message)
         })
@@ -115,7 +124,7 @@ const refresh = async () => {
 }
 
 // ----- 启用、禁用 -----
-const onChangeStatus = (item) => {
+const onChangeStatus = item => {
   const title1 = '禁用动账渠道'
   const title2 = '启用动账渠道'
   const msg1 = '禁用动账渠道不会影响已经登记的记账明细，但无法继续使用此动账渠道登记新明细。请确认是否禁用？'
@@ -126,8 +135,9 @@ const onChangeStatus = (item) => {
         id: item.id,
         activated: !item.activated
       }
-      API.ledger.channel.editChannel(input)
-        .then((res) => {
+      Apis.ledger.channel
+        .editChannel(input)
+        .then(res => {
           if (res && res.success) {
             console.log('成功更新动账渠道数据')
             if (item.activated) {
@@ -146,7 +156,7 @@ const onChangeStatus = (item) => {
             }
           }
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error)
           ElMessage.error(error.message)
         })
@@ -157,11 +167,13 @@ const onChangeStatus = (item) => {
 }
 
 // ----- 编辑 -----
-const onEdit = (item) => {
-  ElMessageBox.confirm('执行修改操作会更改所有已经用此动账渠道登记的记账明细。请确认是否修改？', '编辑动账渠道', { type: 'warning' })
+const onEdit = item => {
+  ElMessageBox.confirm('执行修改操作会更改所有已经用此动账渠道登记的记账明细。请确认是否修改？', '编辑动账渠道', {
+    type: 'warning'
+  })
     .then(() => {
       ElMessageBox.prompt('动账渠道名称：', '编辑动账渠道', { draggable: true, inputValue: item.name })
-        .then((input) => {
+        .then(input => {
           if (input.value === item.name) {
             ElMessage.warning('动账渠道名称未修改')
             return
@@ -170,8 +182,9 @@ const onEdit = (item) => {
             id: item.id,
             name: input.value
           }
-          API.ledger.channel.editChannel(form)
-            .then((res) => {
+          Apis.ledger.channel
+            .editChannel(form)
+            .then(res => {
               if (res && res.success) {
                 console.log('成功修改动账渠道')
                 ElMessage.success('修改成功')
@@ -186,7 +199,7 @@ const onEdit = (item) => {
                 }
               }
             })
-            .catch((error) => {
+            .catch(error => {
               console.log(error)
               ElMessage.error(error.message)
             })
@@ -202,8 +215,9 @@ const onEdit = (item) => {
 
 // ----- 上移、下移操作 -----
 const swapPosition = (id1, id2) => {
-  return API.ledger.channel.swapPosition(id1, id2)
-    .then((res) => {
+  return Apis.ledger.channel
+    .swapPosition(id1, id2)
+    .then(res => {
       if (res && res.success) {
         console.log('移动成功')
         return res.data
@@ -212,13 +226,13 @@ const swapPosition = (id1, id2) => {
         ElMessage.error('移动失败')
       }
     })
-    .catch((error) => {
+    .catch(error => {
       console.log(error.message)
       ElMessage.error(error.message)
     })
 }
 // 上移
-const moveUp = async (scope) => {
+const moveUp = async scope => {
   console.groupCollapsed('上移动账渠道记录', 'index=', scope.$index)
   const index = scope.$index
   const row = scope.row
@@ -248,7 +262,7 @@ const moveUp = async (scope) => {
   console.groupEnd()
 }
 // 下移
-const moveDown = async (scope) => {
+const moveDown = async scope => {
   console.groupCollapsed('下移动账渠道记录', 'index=', scope.$index)
   const index = scope.$index
   const row = scope.row
@@ -278,11 +292,16 @@ const moveDown = async (scope) => {
   console.groupEnd()
 }
 
-const onDelete = (item) => {
-  ElMessageBox.confirm('此操作不会删除【记账明细】中“动账渠道”列登记为本渠道的明细条目，这些明细将会被移动到“<未选择>”渠道中。删除操作不可恢复，请确认是否删除？', '删除动账渠道', { type: 'warning' })
+const onDelete = item => {
+  ElMessageBox.confirm(
+    '此操作不会删除【记账明细】中“动账渠道”列登记为本渠道的明细条目，这些明细将会被移动到“<未选择>”渠道中。删除操作不可恢复，请确认是否删除？',
+    '删除动账渠道',
+    { type: 'warning' }
+  )
     .then(() => {
-      API.ledger.channel.deleteChannel(item.id)
-        .then((res) => {
+      Apis.ledger.channel
+        .deleteChannel(item.id)
+        .then(res => {
           if (res && res.success) {
             console.log('成功删除动账渠道')
             ElMessage.success('删除成功')
@@ -297,7 +316,7 @@ const onDelete = (item) => {
             }
           }
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error)
           ElMessage.error(error.message)
         })

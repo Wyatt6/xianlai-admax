@@ -11,7 +11,7 @@
  * 2、父组件ref属性绑定的对象，例如captchaRef，通过captchaRef.value.initCaptcha()函数获取初始化的验证码。
  */
 import { ref } from 'vue'
-import API from '@/api'
+import Apis from '@/apis'
 
 defineProps({
   loading: {
@@ -28,7 +28,7 @@ const captchaImage = ref('')
  */
 function refreshCaptcha(valid) {
   if (valid) {
-    API.content.captcha.getCaptcha(null, null).then(result => {
+    Apis.content.captcha.getCaptcha(null, null).then(result => {
       captchaKey.value = result.data.captchaKey
       captchaImage.value = result.data.captchaImage
     })

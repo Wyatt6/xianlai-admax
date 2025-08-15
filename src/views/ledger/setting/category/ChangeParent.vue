@@ -1,10 +1,20 @@
 <template>
   <el-dialog draggable :model-value="props.show" title="移动到" @close="onClose()">
-    <div style="margin-bottom:20px">
+    <div style="margin-bottom: 20px">
       <span>移动“{{ nowRow.name }}”记账类别，请选择其要移动到的上级类别：</span>
     </div>
-    <el-tree-select :data="tree" :props="treeProps" default-expand-all highlight-current check-strictly
-      :expand-on-click-node="false" node-key="id" v-model="newParentId" :current-node-key="currParent" clearable />
+    <el-tree-select
+      :data="tree"
+      :props="treeProps"
+      default-expand-all
+      highlight-current
+      check-strictly
+      :expand-on-click-node="false"
+      node-key="id"
+      v-model="newParentId"
+      :current-node-key="currParent"
+      clearable
+    />
     <template #footer>
       <el-button type="primary" @click="onConfirm()" :loading="loading">确定</el-button>
       <el-button @click="onClose()">取消</el-button>
@@ -15,7 +25,7 @@
 <script setup>
 import { defineProps, defineEmits, ref, watch } from 'vue'
 import { ElMessage } from 'element-plus'
-import API from '@/api'
+import Apis from '@/apis'
 
 const props = defineProps({
   show: {
@@ -50,13 +60,15 @@ watch(
   () => props.show,
   (value, oldValue) => {
     if (value === true) {
-      tree.value = [{
-        id: -1,
-        data: {
-          name: '根类别'
-        },
-        children: props.tree
-      }]
+      tree.value = [
+        {
+          id: -1,
+          data: {
+            name: '根类别'
+          },
+          children: props.tree
+        }
+      ]
       newParentId.value = props.nowRow.parentId
       currParent.value = props.nowRow.parentId
     }
@@ -72,8 +84,9 @@ const onConfirm = () => {
       id: props.nowRow.id,
       parentId: newParentId.value
     }
-    API.ledger.category.editCategory(input)
-      .then((res) => {
+    Apis.ledger.category
+      .editCategory(input)
+      .then(res => {
         if (res && res.success) {
           console.log('移动成功')
           ElMessage.success('移动成功')
@@ -89,7 +102,7 @@ const onConfirm = () => {
           }
         }
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error)
         ElMessage.error(error.message)
       })

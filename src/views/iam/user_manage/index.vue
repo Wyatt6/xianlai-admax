@@ -139,7 +139,7 @@ import { Refresh, Search, Brush, Open, TurnOff } from '@element-plus/icons-vue'
 import BindRole from './BindRole.vue'
 import PermissionConst from '@/constants/permission_const'
 import Storage from '@/utils/storage'
-import API from '@/api'
+import Apis from '@/apis'
 
 // ---------- 搜索表单数据定义 ----------
 const searched = ref(false)
@@ -184,7 +184,7 @@ watch(
 // ---------- 获取用户列表分页数据渲染表格 ----------
 const getListByPage = (num, size) => {
   // 注意：num是服务器页码，下标从0开始
-  return API.iam.user
+  return Apis.iam.user
     .getUsersByPage(num, size)
     .then(res => {
       if (res && res.success) {
@@ -228,7 +228,7 @@ const getListByPageConditionally = (num, size, condition) => {
   // 注意：num是服务器页码，下标从0开始
   condition.pageNum = num
   condition.pageSize = size
-  return API.iam.user
+  return Apis.iam.user
     .getUsersByPageConditionally(condition)
     .then(res => {
       if (res && res.success) {
@@ -311,7 +311,7 @@ const onChangeStatus = row => {
   ElMessageBox.confirm(message, '请确认', { type: 'warning' })
     .then(() => {
       if (activated) {
-        API.iam.user
+        Apis.iam.user
           .freeze(id)
           .then(res => {
             if (res && res.success) {
@@ -330,7 +330,7 @@ const onChangeStatus = row => {
             ElMessage.error(error.message)
           })
       } else {
-        API.iam.user
+        Apis.iam.user
           .unfreeze(id)
           .then(res => {
             if (res && res.success) {

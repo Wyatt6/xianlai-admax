@@ -63,7 +63,7 @@ import ChangeParent from './ChangeParent.vue'
 import { ref } from 'vue'
 import { Plus, Refresh, Open, TurnOff, Edit, Rank, Top, Bottom, Delete } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import API from '@/api'
+import Apis from '@/apis'
 
 const currRowKey = ref()
 const loading = ref(false)
@@ -72,7 +72,7 @@ const loading = ref(false)
 const tree = ref([])
 const getCategoryTree = async () => {
   loading.value = true
-  const { categoryTree } = await API.ledger.category
+  const { categoryTree } = await Apis.ledger.category
     .getCategoryTree()
     .then(res => {
       if (res && res.success) {
@@ -108,7 +108,7 @@ const onChangeParent = item => {
 // ----- 上移、下移操作 -----
 const onMove = (id, mode) => {
   console.groupCollapsed('移动记账类别', 'id=', id, 'mode=', mode)
-  API.ledger.category
+  Apis.ledger.category
     .moveOneRow(id, mode)
     .then(res => {
       if (res && res.success) {
@@ -141,7 +141,7 @@ const onDelete = item => {
     { type: 'warning', dangerouslyUseHTMLString: true }
   )
     .then(() => {
-      API.ledger.category
+      Apis.ledger.category
         .deleteCategoryTree(item.id)
         .then(res => {
           if (res && res.success) {
@@ -184,7 +184,7 @@ const onEdit = item => {
             id: item.id,
             name: input.value
           }
-          API.ledger.category
+          Apis.ledger.category
             .editCategory(form)
             .then(res => {
               if (res && res.success) {
@@ -223,7 +223,7 @@ const onChangeStatus = item => {
   const msg2 = '启用后可以继续使用此记账类别登记新记账明细。请确认是否启用此类别及其所有子类别？'
   ElMessageBox.confirm(item.activated ? msg1 : msg2, item.activated ? title1 : title2, { type: 'warning' })
     .then(() => {
-      API.ledger.category
+      Apis.ledger.category
         .changeActivated(item.id, !item.activated)
         .then(res => {
           if (res && res.success) {
@@ -272,7 +272,7 @@ const onAdd = (mode, parentId) => {
       }
       if (mode === 'sub') addForm.parentId = parentId
 
-      await API.ledger.category
+      await Apis.ledger.category
         .addCategory(addForm)
         .then(async res => {
           if (res && res.success) {

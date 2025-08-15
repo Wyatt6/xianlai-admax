@@ -18,28 +18,35 @@
         <el-input-number v-model="form.amount" :controls="false" :precision="2" :min="0" placeholder="请输入交易金额" />
       </el-form-item>
       <el-form-item label="记账类别">
-        <el-tree-select v-model="form.categoryId" :data="tree" :props="treeProps" default-expand-all highlight-current
-          :expand-on-click-node="false" node-key="id" clearable />
+        <el-tree-select
+          v-model="form.categoryId"
+          :data="tree"
+          :props="treeProps"
+          default-expand-all
+          highlight-current
+          :expand-on-click-node="false"
+          node-key="id"
+          clearable
+        />
       </el-form-item>
       <el-form-item label="说明">
         <el-input type="textarea" v-model="form.description" placeholder="选填" />
       </el-form-item>
       <el-form-item label="动账渠道">
         <el-select v-model="form.channelId" clearable>
-          <el-option v-for="item in list" :key="item.id" :label="item.name" :value="item.id"
-            :disabled="!item.activated" />
+          <el-option v-for="item in list" :key="item.id" :label="item.name" :value="item.id" :disabled="!item.activated" />
         </el-select>
       </el-form-item>
     </el-form>
-    <el-button style="margin-top:30px" type="primary" @click="onSave()">保存</el-button>
-    <el-button style="margin-top:30px" @click="initForm()">重置</el-button>
+    <el-button style="margin-top: 30px" type="primary" @click="onSave()">保存</el-button>
+    <el-button style="margin-top: 30px" @click="initForm()">重置</el-button>
   </el-drawer>
 </template>
 
 <script setup>
 import { defineProps, defineEmits, ref, watch } from 'vue'
 import { ElMessage } from 'element-plus'
-import API from '@/api'
+import Apis from '@/apis'
 
 const props = defineProps({
   show: {
@@ -108,7 +115,8 @@ const shortcuts = ref([
       date.setTime(date.getTime() - 3600 * 1000 * 48)
       return date
     }
-  }])
+  }
+])
 const treeProps = ref({
   label: (data, node) => {
     return data.data.name
@@ -125,8 +133,9 @@ const onSave = () => {
 }
 
 const getCategoryTree = () => {
-  return API.ledger.category.getCategoryTree()
-    .then((res) => {
+  return Apis.ledger.category
+    .getCategoryTree()
+    .then(res => {
       if (res && res.success) {
         console.log('成功获取类别树')
         return res.data.categoryTree
@@ -140,14 +149,15 @@ const getCategoryTree = () => {
         }
       }
     })
-    .catch((error) => {
+    .catch(error => {
       console.log(error)
       ElMessage.error(error.message)
     })
 }
 const getChannelList = () => {
-  return API.ledger.channel.getChannels()
-    .then((res) => {
+  return Apis.ledger.channel
+    .getChannels()
+    .then(res => {
       if (res && res.success) {
         console.log('成功获取动账渠道列表')
         return res.data.channels
@@ -161,7 +171,7 @@ const getChannelList = () => {
         }
       }
     })
-    .catch((error) => {
+    .catch(error => {
       console.log(error)
       ElMessage.error(error.message)
     })
