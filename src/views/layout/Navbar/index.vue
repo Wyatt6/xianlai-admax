@@ -19,11 +19,7 @@
         </div>
         <el-dropdown class="avatar-container" trigger="click">
           <div class="avatar-wrapper">
-            <el-avatar
-              shape="square"
-              :size="36"
-              :src="appStore.profile.avatar ? appStore.profile.avatar : require('@/assets/img/fail_picture.png')"
-            />
+            <el-avatar shape="square" :size="36" :src="appStore.profile.avatar ? appStore.profile.avatar : failPicture" />
             <el-icon :size="15">
               <CaretBottom />
             </el-icon>
@@ -39,7 +35,6 @@
               <el-dropdown-item>
                 <el-popover trigger="hover" placement="left-start">
                   <template #reference> 联系管理员 </template>
-                  <el-image :src="require('@/assets/img/admin_wechat.jpg')" />
                 </el-popover>
               </el-dropdown-item>
               <el-dropdown-item divided @click="logout">
@@ -54,6 +49,7 @@
 </template>
 
 <script setup>
+import failPicture from '@/assets/img/fail_picture.png'
 import Hamburger from '../components/Hamburger/index.vue'
 import Breadcrumb from '../components/Breadcrumb/index.vue'
 import { useAppStore } from '@/stores/app'

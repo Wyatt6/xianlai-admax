@@ -6,13 +6,13 @@
           <el-card class="carousel-card">
             <el-carousel height="400px">
               <el-carousel-item>
-                <el-image style="width: 100%; height: 100%" :src="require('@/assets/img/carousel/carousel1.jpg')" />
+                <el-image style="width: 100%; height: 100%" :src="carousel1" />
               </el-carousel-item>
               <el-carousel-item>
-                <el-image style="width: 100%; height: 100%" :src="require('@/assets/img/carousel/carousel2.jpg')" />
+                <el-image style="width: 100%; height: 100%" :src="carousel2" />
               </el-carousel-item>
               <el-carousel-item>
-                <el-image style="width: 100%; height: 100%" :src="require('@/assets/img/carousel/carousel3.jpg')" />
+                <el-image style="width: 100%; height: 100%" :src="carousel3" />
               </el-carousel-item>
             </el-carousel>
           </el-card>
@@ -38,6 +38,9 @@
 </template>
 
 <script setup>
+import carousel1 from '@/assets/img/carousel/carousel1.jpg'
+import carousel2 from '@/assets/img/carousel/carousel2.jpg'
+import carousel3 from '@/assets/img/carousel/carousel3.jpg'
 import SubscriptionCard from './components/SubscriptionCard.vue'
 import HelloCard from './components/HelloCard.vue'
 import { ref } from 'vue'

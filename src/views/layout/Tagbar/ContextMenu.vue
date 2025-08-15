@@ -62,7 +62,7 @@ const onCloseAllClick = () => {
 
 const onCloseRightClick = () => {
   // 如果激活页面标签在当前页面标签的右边，则跳转到该当前页面
-  const activeIndex = getTagIndexByPath(store.state.layout.tagList, route.path)
+  const activeIndex = getTagIndexByPath(layoutStore.tagList, route.path)
   layoutStore.removeTags({ mode: 'right', index: props.index })
   if (activeIndex > props.index) {
     router.push(props.tagPath)

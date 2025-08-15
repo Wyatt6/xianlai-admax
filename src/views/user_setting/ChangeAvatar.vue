@@ -1,8 +1,8 @@
 <template>
   <el-dialog :model-value="show" title="更换头像">
     <div class="avatar-area">
-      <el-avatar shape="circle" :size="150" :src="require('@/assets/img/fail_picture.png')" />
-      <el-avatar style="margin-left: 60px" shape="square" :size="36" :src="require('@/assets/img/fail_picture.png')" />
+      <el-avatar shape="circle" :size="150" :src="failPicture" />
+      <el-avatar style="margin-left: 60px" shape="square" :size="36" :src="failPicture" />
     </div>
     <template #footer>
       <el-upload ref="upload" :limit="1" :auto-upload="false" :on-exceed="onExceed()">
@@ -19,6 +19,7 @@
 </template>
 
 <script setup>
+import failPicture from '@/assets/img/fail_picture.png'
 import { defineProps, ref } from 'vue'
 
 const props = defineProps({

@@ -6,11 +6,7 @@
       </span>
     </template>
     <div class="profile-wrapper">
-      <el-avatar
-        shape="circle"
-        :size="150"
-        :src="appStore.profile.avatar ? appStore.profile.avatar : require('@/assets/img/fail_picture.png')"
-      />
+      <el-avatar shape="circle" :size="150" :src="appStore.profile.avatar ? appStore.profile.avatar : failPicture" />
       <div class="nickname">
         <span>{{ appStore.hasProfile ? appStore.profile.nickname : '昵称' }}</span>
       </div>
@@ -45,6 +41,7 @@
 </template>
 
 <script setup>
+import failPicture from '@/assets/img/fail_picture.png'
 import { ref, computed } from 'vue'
 import { useAppStore } from '@/stores/app'
 import { useRouter } from 'vue-router'

@@ -1,4 +1,3 @@
-import path from 'path'
 import { isEmpty } from './common'
 
 /**
@@ -6,9 +5,9 @@ import { isEmpty } from './common'
  * @param {*} routes 全量路由表
  * @returns 数组
  */
-const getChildrenRoutes = (routes) => {
+const getChildrenRoutes = routes => {
   const result = []
-  routes.forEach((route) => {
+  routes.forEach(route => {
     if (route.children && route.children.length > 0) {
       result.push(...route.children)
     }
@@ -20,12 +19,12 @@ const getChildrenRoutes = (routes) => {
  * 处理flatten后的路由表：某个一级路由为其他子路由（在children中定义），则剔除该一级路由，保留路由层级
  * @param {*} routes router.getRoutes()获取的全量路由表
  */
-export const filterRoutes = (routes) => {
+export const filterRoutes = routes => {
   // 获取所有在路由表children中定义的路由
   const childrenRoutes = getChildrenRoutes(routes)
   // 去重，保留不重复的一级路由
-  return routes.filter((route) => {
-    return !childrenRoutes.find((childrenRoute) => {
+  return routes.filter(route => {
+    return !childrenRoutes.find(childrenRoute => {
       return childrenRoute.path === route.path
     })
   })
@@ -52,13 +51,19 @@ export function generateMenus(routes, pathPrefix = '') {
   const menus = []
 
   // 遍历当前层次的每一个路由配置项
-  routes.forEach((route) => {
+  routes.forEach(route => {
     // path.resolve(path1, path2, path3, ...)函数会把一个路径或路径序列按顺序解析成为一个绝对路径
     // 此处作用：如果当前路由路径是用相对路径表示，则拼接到父路由的前缀pathPrefix后面，形成完整的绝对路径
     // 注意：
     //  pathPrefix = /user, route.path = /profile/name =====> routePath = /profile/name（因为/profile/name是绝对路径）
     //  pathPrefix = /user, route.path = profile/name =====> routePath = /user/profile/name（因为profile/name是相对路径）
-    const routePath = path.resolve(pathPrefix, route.path)
+    // 由于path模块不能用，用以下语句代替其功能
+    let routePath = ''
+    if (route.path[0] === '/') {
+      routePath = route.path
+    } else {
+      routePath = pathPrefix + '/' + route.path
+    }
 
     // 1、如果当前路由存在children，先递归进入children处理子路由的菜单数组
     let childrenMenus = []
@@ -74,7 +79,7 @@ export function generateMenus(routes, pathPrefix = '') {
     // 2、如果该路由满足显示条件，需要添加到菜单数组
     if (!isEmpty(route.meta) && route.meta.isMenu) {
       // 检索菜单数组中是否已经包含了routePath路径（即当前路由）的菜单对象，如果已包含则直接使用，否则创建新对象添加到菜单数组
-      let menu = menus.find((menu) => menu.path === routePath)
+      let menu = menus.find(menu => menu.path === routePath)
       if (!menu) {
         menu = {
           ...route, // meta在这里面了

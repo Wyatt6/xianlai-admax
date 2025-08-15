@@ -1,5 +1,5 @@
 <template>
-  <div class="page-wrapper" :class="[store.state.layout.sidebarExpand ? 'sidebar-expand' : 'sidebar-hidden']">
+  <div class="page-wrapper" :class="[layoutStore.sidebarExpand ? 'sidebar-expand' : 'sidebar-hidden']">
     <Sidebar />
     <div class="right-wrapper">
       <div class="fixed-header">
@@ -14,6 +14,7 @@
 <script setup>
 import { watch } from 'vue'
 import { useAppStore } from '@/stores/app'
+import { useLayoutStore } from '@/stores/layout'
 import Sidebar from './Sidebar/index.vue'
 import Navbar from './Navbar/index.vue'
 import Tagbar from './Tagbar/index.vue'
@@ -22,6 +23,7 @@ import AuthorizationService from '@/services/authorization_service'
 import ProfileService from '@/services/profile_service'
 
 const appStore = useAppStore()
+const layoutStore = useLayoutStore()
 
 // ----- 授权数据 -----
 watch(

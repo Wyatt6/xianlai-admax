@@ -34,6 +34,7 @@ import RouteConst from '@/constants/route_const.js'
 import { filterRoutes, generateMenus } from '@/utils/routes2menus'
 import MenuItem from '../components/MenuItem/index.vue'
 import Variables from '../index.module.scss'
+import logoUrl from '@/assets/img/logo.png'
 
 const layoutStore = useLayoutStore()
 const router = useRouter()
@@ -41,7 +42,6 @@ const route = useRoute()
 
 // ---------- LOGO ----------
 const logoHeight = 30
-const logoUrl = require('@/assets/img/logo.png')
 
 // ---------- 获取（树形结构）菜单数据 ----------
 // 由于路由表中有很多路径并不是用来显示菜单的，只是用来跳转用，所以要把真正用来显示菜单的路由筛选出来

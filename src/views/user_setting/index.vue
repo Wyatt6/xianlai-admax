@@ -6,11 +6,7 @@
           <div class="setting-wrapper">
             <div class="setting">
               <div class="avatar-img">
-                <el-avatar
-                  shape="circle"
-                  :size="150"
-                  :src="appStore.profile.avatar ? appStore.profile.avatar : require('@/assets/img/fail_picture.png')"
-                />
+                <el-avatar shape="circle" :size="150" :src="appStore.profile.avatar ? appStore.profile.avatar : failPicture" />
               </div>
               <div class="avatar-btn">
                 <el-button size="large" @click="changeAvatar()">更换头像</el-button>
@@ -58,6 +54,7 @@
 </template>
 
 <script setup>
+import failPicture from '@/assets/img/fail_picture.png'
 import ChangeAvatar from './ChangeAvatar.vue'
 import ChangePwd from './ChangePwd.vue'
 import { ref } from 'vue'
