@@ -84,7 +84,7 @@ const logout = async () => {
       if (res && res.success) {
         console.log('退出登录成功')
         console.log('返回到登录页面')
-        appStore.init()
+        appStore.initApp()
         console.groupEnd()
         await router.push(RouteConst.LOGIN)
       } else {

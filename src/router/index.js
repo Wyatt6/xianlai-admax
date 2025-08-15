@@ -216,7 +216,7 @@ router.beforeEach(async (to, from, next) => {
         // 因为token过期
         ElMessage.error('登录已过期，请重新登录')
       }
-      await appStore.init()
+      await appStore.initApp()
       console.groupEnd()
       next(RouteConst.LOGIN)
     }

@@ -70,8 +70,8 @@ export const useAppStore = defineStore('app', () => {
   /**
    * 初始化前端系统状态
    */
-  async function init() {
-    console.groupCollapsed('init: 初始化前端系统状态')
+  async function initApp() {
+    console.groupCollapsed('initApp: 初始化前端系统状态')
 
     console.log('清理state状态')
     initState()
@@ -108,6 +108,6 @@ export const useAppStore = defineStore('app', () => {
     setHasProfile,
     setGettingProfile,
     setProfile,
-    init
+    initApp
   }
 })
