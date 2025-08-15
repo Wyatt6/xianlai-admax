@@ -1,60 +1,36 @@
 import Storage from './storage'
+import TokenConst from '@/constants/token_const'
 
-/**
- * 保存token令牌到本地缓存
- * @param {*} token token令牌值
- */
-function setToken(token) {
-  Storage.set('token', token)
+// ----- 缓存token -----
+const setToken = (token) => {
+  Storage.set(TokenConst.TOKEN, token)
 }
-
-/**
- * 从本地缓存中获取token令牌
- * @returns token令牌值
- */
-function getToken() {
-  return Storage.get('token')
+// ----- 获取token -----
+const getToken = () => {
+  return Storage.get(TokenConst.TOKEN)
 }
-
-/**
- * 判断本地缓存是否有token令牌
- * @returns 有 - true / 无 - false
- */
-function hasToken() {
-  return getToken() != null
+// ----- 缓存token过期时间 -----
+const setExpiredTime = (expiredTime) => {
+  Storage.set(TokenConst.TOKEN_EXPIRED_TIME, expiredTime)
 }
-
-/**
- * 保存token过期时间到本地缓存
- * @param {*} expiredTime token过期时间
- */
-function setExpiredTime(expiredTime) {
-  Storage.set('token_expired_time', expiredTime)
-}
-
-/**
- * 从本地缓存获取token过期时间
- * @returns token过期时间
- */
-function getExpiredTime() {
-  return Storage.get('token_expired_time')
-}
-
-/**
- * 判断token是否过期
- * @returns
- */
-function isExpired() {
-  const current = Date.now()
-  const expiredTime = getExpiredTime()
-  return current > expiredTime
+// ----- 获取token过期时间缓存 -----
+const getExpiredTime = () => {
+  return Storage.get(TokenConst.TOKEN_EXPIRED_TIME)
 }
 
 export default {
-  setToken,
-  getToken,
-  hasToken,
-  setExpiredTime,
-  getExpiredTime,
-  isExpired
+  setToken: setToken,
+  getToken: getToken,
+  setExpiredTime: setExpiredTime,
+  getExpiredTime: getExpiredTime,
+  // ----- 判断token是否存在 -----
+  hasToken: () => {
+    return getToken() != null
+  },
+  // ----- 判断token是否过期 -----
+  isExpired: () => {
+    const current = Date.now()
+    const expiredTime = getExpiredTime()
+    return current > expiredTime
+  }
 }

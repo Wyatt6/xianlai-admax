@@ -11,33 +11,6 @@ export function isEmpty(data) {
 }
 
 /**
- * 判断数据是否非空（null/undefined/{}/[]）
- * @param {*} data
- * @returns true-非空；false-空
- */
-export function notEmpty(data) {
-  return !isEmpty(data)
-}
-
-/**
- * 判断字符串是否为空串
- * @param {*} str
- * @returns true-空；false-非空
- */
-export function isEmptyString(str) {
-  return str == null || str.length == 0
-}
-
-/**
- * 判断字符串是否非空
- * @param {*} str
- * @returns true-非空；false-空
- */
-export function notEmptyString(str) {
-  return !isEmptyString(str)
-}
-
-/**
  * 获取某个月有多少天
  * @param {*} year 年份
  * @param {*} month 月份
@@ -64,14 +37,4 @@ export function getDaysOfMonth(year, month) {
   } else {
     return year % 4 === 0 ? 29 : 28
   }
-}
-
-/**
- * 判断是否是16进制颜色字符串
- * @param {*} str
- * @returns
- */
-export function checkHEX(str) {
-  const regExp = /^#[a-f0-9]{6}$/i // i表示忽略大小写
-  return regExp.test(str)
 }

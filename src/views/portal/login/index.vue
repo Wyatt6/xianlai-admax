@@ -1,215 +1,189 @@
 <template>
-  <div class="box-wrap">
-    <div class="box-header">
+  <div class="input-box-wrapper">
+    <div class="input-box-header">
       <div>
-        <span class="title">登录</span>
+        <span class="title">Wyatt的日常生活</span>
       </div>
       <div>
         <span class="sub-title">没有账号？</span>
-        <span :class="loading ? 'sub-title-link__disabled' : 'sub-title-link'" @click="toRegister">点此注册</span>
+        <span class="sub-title-link" @click="toRegisterPage">点此注册</span>
       </div>
     </div>
-    <el-form class="form-wrap" ref="formRef" :model="formModel" :rules="formRules" :disabled="loading">
-      <el-form-item prop="username">
-        <el-input size="large" placeholder="用户名" v-model="formModel.username" :maxlength="20" clearable />
-      </el-form-item>
-      <el-form-item prop="password">
-        <el-input size="large" placeholder="密码" v-model="formModel.password" type="password" :maxlength="30" show-password />
-      </el-form-item>
-      <el-form-item prop="captcha">
-        <el-input size="large" placeholder="验证码" v-model="formModel.captcha" maxlength="5" clearable>
-          <template #append>
-            <div class="captcha-box">
-              <Captcha ref="captchaRef" :loading="loading" />
-            </div>
-          </template>
-        </el-input>
-      </el-form-item>
-    </el-form>
-    <div class="sub-box">
+    <el-tabs type="card" :stretch="true" :model="selectedTabPane" @tab-change="onTabChange">
+      <el-tab-pane label="密码登录" name="0">
+        <div class="login-tab-box">
+          <PwdLoginForm ref="pwdLoginRef" @keyEnter="onLogin(selectedTabPane)" />
+        </div>
+      </el-tab-pane>
+      <el-tab-pane label=" 邮件验证码" name="1" :lazy="true">
+        <div class="login-tab-box">
+          <EmailLoginForm ref="emailLoginRef" @keyEnter="onLogin(selectedTabPane)" />
+        </div>
+      </el-tab-pane>
+      <el-tab-pane label=" 短信验证码" name="2" :lazy="true">
+        <div class="login-tab-box">
+          <SmsLoginForm ref="smsLoginRef" @keyEnter="onLogin(selectedTabPane)" />
+        </div>
+      </el-tab-pane>
+    </el-tabs>
+    <div class="sub-input-box">
       <div>
         <el-checkbox v-model="rememberMe" label="记住我" />
       </div>
-      <div @click="toResetPassword">
+      <div @click="ElMessage.error('功能未开发')">
         <span class="sub-title-link">已有帐号，忘记密码？</span>
       </div>
     </div>
-    <el-button class="login-btn" type="primary" size="large" :loading="loading" @click="onLogin">
+    <el-button class="login-btn" type="primary" size="large" :loading="loading" @click="onLogin(selectedTabPane)">
       <span class="login-btn-label">登 录</span>
     </el-button>
+    <el-divider />
+    <div class="footer">
+      <div>
+        <span>&copy; 2024 wyatt.run</span>
+      </div>
+      <div>
+        <span>欢迎使用 ONCE 系统！如有问题，</span>
+        <el-popover trigger="hover" placement="top">
+          <template #reference>
+            <span class="footer-link" style="color: #409eff; cursor: pointer">请联系管理员</span>
+          </template>
+        </el-popover>
+      </div>
+      <div>
+        <span>备案号：</span>
+        <el-link type="primary" href="https://beian.miit.gov.cn" target="_blank">粤ICP备2022019185号-1</el-link>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
-import Captcha from '@/components/Captcha/index.vue'
-import { ElMessage } from 'element-plus'
-import { ref, onMounted } from 'vue'
+import { ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
+import PwdLoginForm from './components/PwdLoginForm.vue'
+import EmailLoginForm from './components/EmailLoginForm.vue'
+import SmsLoginForm from './components/SmsLoginForm.vue'
+import RouteConst from '@/constants/route_const'
+import AppConst from '@/constants/app_const'
 import Storage from '@/utils/storage'
-import Validator from '@/utils/validator'
-import Logger from '@/utils/logger'
-import Apis from '@/apis'
 
-const loading = ref(false)
+// ==================== 定义变量 ====================
 const router = useRouter()
-const captchaRef = ref()
-const rememberMe = ref(Storage.get('remember_username') != null)
+const loading = ref(false)
+// ----- 3种登录方式标签页 -----
+const selectedTabPane = ref('0')
+const pwdLoginRef = ref()
+const emailLoginRef = ref()
+const smsLoginRef = ref()
+// ----- “记住我”勾选框 -----
+const hasUsername = Storage.get(AppConst.USERNAME) != null
+const rememberMe = ref(hasUsername)
 
-const formRef = ref()
-const formModel = ref({
-  username: Storage.get('remember_username') || '', // 自动填充记住的用户名
-  password: '',
-  captcha: ''
-})
-const formRules = ref({
-  username: [
-    { required: true, message: '请输入用户名', trigger: 'blur' },
-    { min: 5, max: 20, message: `长度5至20位`, trigger: 'change' },
-    { min: 5, max: 20, message: `长度5至20位`, trigger: 'blur' },
-    { validator: Validator.username(), trigger: 'change' },
-    { validator: Validator.username(), trigger: 'blur' }
-  ],
-  password: [
-    { required: true, message: '请输入密码', trigger: 'blur' },
-    { min: 6, max: 30, message: `长度6至30位`, trigger: 'change' },
-    { min: 6, max: 30, message: `长度6至30位`, trigger: 'blur' },
-    { validator: Validator.password(), trigger: 'change' },
-    { validator: Validator.password(), trigger: 'blur' }
-  ],
-  captcha: [
-    { required: true, message: '请输入验证码', trigger: 'blur' },
-    { validator: Validator.captcha(), trigger: 'blur' }
-  ]
-})
+// ==================== 切换标签 ====================
+const onTabChange = activeName => {
+  selectedTabPane.value = activeName
+}
 
-function onLogin() {
-  Logger.log('用户登录')
-  formRef.value.validate(valid => {
-    if (valid) {
-      loading.value = true
-      const input = {
-        username: formModel.value.username,
-        password: formModel.value.password,
-        captchaKey: captchaRef.value.captchaKey,
-        captcha: formModel.value.captcha
+// ==================== 登录 ====================
+const onLogin = async selectedTabPane => {
+  loading.value = true
+  // 密码登录
+  if (selectedTabPane === '0') {
+    await pwdLoginRef.value.login(rememberMe)
+  }
+  // 邮件登录
+  if (selectedTabPane === '1') {
+    await emailLoginRef.value.login(rememberMe)
+  }
+  // 短信登录
+  if (selectedTabPane === '2') {
+    await smsLoginRef.value.login(rememberMe)
+  }
+  loading.value = false
+}
+
+// ==================== 跳转到注册页面 ====================
+const toRegisterPage = () => {
+  if (!loading.value) {
+    router.push(RouteConst.REGISTER)
+  }
+}
+
+// ==================== 监听登录方式切换，渲染“记住我”勾选框 ====================
+watch(
+  () => selectedTabPane.value,
+  (value, oldValue) => {
+    if (value === '0') {
+      if (Storage.get(AppConst.USERNAME)) {
+        rememberMe.value = true
+      } else {
+        rememberMe.value = false
       }
-      Apis.iam.user
-        .login(null, input)
-        .finally(() => {
-          loading.value = false
-        })
-        .then(result => {
-          if (result && result.success) {
-            Logger.log('登录成功')
-            const { token, tokenExpiredTime } = result.data
-            Logger.log('缓存登录数据')
-            Storage.set('token', token) // 用来下次自动登录
-            Storage.set('token_expired_time', tokenExpiredTime)
-            if (rememberMe.value) {
-              Logger.log('记住用户名')
-              Storage.set('remember_username', input.username)
-            } else {
-              Storage.delete('remember_username')
-            }
-            Logger.log('跳转到主页面')
-            router.push('/')
-          } else {
-            Logger.log('登录失败')
-            ElMessage.error(result && result.data && result.data.message ? result.data.message : '登录失败')
-            // 自动刷新验证码
-            captchaRef.value.initCaptcha(true)
-            formModel.value.captcha = ''
-          }
-        })
-    } else {
-      ElMessage.error('输入格式错误')
-      Logger.log('登录表单数据格式错误')
     }
-  })
-}
-
-/**
- * 回车登录
- * @param event 键盘事件对象
- */
-document.onkeydown = event => {
-  if (event.keyCode === 13) {
-    onLogin()
-  }
-}
-
-function toRegister() {
-  if (!loading.value) {
-    router.push('/portal/register')
-  }
-}
-
-function toResetPassword() {
-  if (!loading.value) {
-    router.push('/portal/reset-password')
-  }
-}
-
-/**
- * 绑定验证码组件，挂载组件时初始化验证码
- */
-onMounted(() => {
-  captchaRef.value.initCaptcha(true)
-})
+    if (value === '1') {
+      if (Storage.get(AppConst.EMAIL)) {
+        rememberMe.value = true
+      } else {
+        rememberMe.value = false
+      }
+    }
+    if (value === '2') {
+      if (Storage.get(AppConst.PHONE)) {
+        rememberMe.value = true
+      } else {
+        rememberMe.value = false
+      }
+    }
+  },
+  { immediate: true }
+)
 </script>
 
 <style lang="scss" scoped>
-.box-wrap {
+.input-box-wrapper {
   width: 100%;
   height: 100%;
 
   .sub-title {
-    font-size: 1.4rem;
+    color: #40485b;
+    font-size: 14px;
   }
 
   .sub-title-link {
     color: #409eff;
-    font-size: 1.4rem;
+    font-size: 14px;
     cursor: pointer;
-
-    &__disabled {
-      color: #409eff;
-      font-size: 1.4rem;
-      cursor: not-allowed;
-    }
   }
 
-  .box-header {
+  .input-box-header {
     width: 100%;
-    height: 3.5rem;
-    margin-bottom: 2.5rem;
+    height: 35px;
+    margin-bottom: 25px;
     display: flex;
     align-items: flex-end; // 下边对齐
     justify-content: space-between;
 
     .title {
-      font-size: 3rem;
+      color: #40485b;
+      font-size: 25px;
       font-weight: bold;
-      font-family: Tahoma;
     }
   }
 
-  .form-wrap {
-    margin-top: 9rem;
-
-    :deep(.el-input-group__append) {
-      padding: 0;
-    }
-
-    .captcha-box {
-      width: 15rem;
-      height: 4rem;
-    }
+  ::v-deep .el-input-group__append {
+    padding: 0px;
   }
 
-  .sub-box {
+  .login-tab-box {
     width: 100%;
-    height: 3rem;
+    height: 180px;
+  }
+
+  .sub-input-box {
+    width: 100%;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -217,11 +191,19 @@ onMounted(() => {
 
   .login-btn {
     width: 100%;
-    margin-top: 5rem;
+    margin-top: 30px;
 
     .login-btn-label {
-      font-size: 1.8rem;
+      font-size: 18px;
     }
+  }
+
+  .footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #40485b;
+    font-size: 15px;
   }
 }
 </style>

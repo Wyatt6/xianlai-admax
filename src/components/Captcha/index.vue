@@ -1,6 +1,6 @@
 <template>
   <div :class="loading ? 'captcha-img-disabled' : 'captcha-img'" @click="refreshCaptcha(!loading)">
-    <el-image :src="captchaImage" style="width: 100%; height: 100%" fit="fill" />
+    <el-image :src="captchaImage" style="width:100%;height:100%" fit="fill" />
   </div>
 </template>
 
@@ -10,8 +10,8 @@
  * 1、loading参数控制组件加载状态，加载中的组件无法点击刷新验证码；
  * 2、父组件ref属性绑定的对象，例如captchaRef，通过captchaRef.value.initCaptcha()函数获取初始化的验证码。
  */
-import { ref } from 'vue'
-import Apis from '@/apis'
+import { ref, defineProps, defineExpose } from 'vue'
+import API from '@/api'
 
 defineProps({
   loading: {
@@ -19,27 +19,20 @@ defineProps({
     default: false
   }
 })
+
+// ==================== 刷新验证码 ====================
 const captchaKey = ref('')
 const captchaImage = ref('')
-
-/**
- * 刷新验证码
- * @param valid 是否允许刷新
- */
-const refreshCaptcha = valid => {
+const refreshCaptcha = (valid) => {
   if (valid) {
-    Apis.common.captcha.getCaptcha(null, null).then(result => {
-      captchaKey.value = result.data.captchaKey
-      captchaImage.value = result.data.captchaImage
+    API.content.captcha.getCaptcha().then((res) => {
+      captchaKey.value = res.data.captchaKey
+      captchaImage.value = res.data.captchaImage
     })
   }
 }
 
-/**
- * 向父组件暴露的函数的参数和函数
- * captchaKey: 后端返回的验证码KEY值
- * initCaptcha(): 验证码初始化函数
- */
+// ==================== 向父组件暴露的函数 ====================
 defineExpose({
   captchaKey: captchaKey, // defineExpose函数里不需要写.value
   initCaptcha: refreshCaptcha
