@@ -13,11 +13,12 @@ import installIcons from './plugins/icons' // 引入图标注册函数
 import installDirectives from './plugins/directives' // 引入自定义指令
 
 const app = createApp(App)
+
 app.use(ElementPlus, { locale: zhCN })
 app.use(createPinia())
 app.use(router)
 
-installIcons(app)
+await installIcons(app)
 installDirectives(app)
 
 app.mount('#app')
