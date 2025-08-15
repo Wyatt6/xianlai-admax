@@ -59,7 +59,7 @@
       }
 
       .cover-img {
-        background-image: url('@/assets/img/portal-cover.jpg');
+        background-image: url('@/assets/images/portal-cover.jpg');
         background-size: 100% 100%;
         display: flex;
         justify-content: center;

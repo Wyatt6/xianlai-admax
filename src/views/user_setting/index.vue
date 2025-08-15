@@ -54,7 +54,7 @@
 </template>
 
 <script setup>
-import failPicture from '@/assets/img/fail_picture.png'
+import failPicture from '@/assets/images/fail_picture.png'
 import ChangeAvatar from './ChangeAvatar.vue'
 import ChangePwd from './ChangePwd.vue'
 import { ref } from 'vue'

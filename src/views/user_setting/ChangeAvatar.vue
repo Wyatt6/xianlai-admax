@@ -19,7 +19,7 @@
 </template>
 
 <script setup>
-import failPicture from '@/assets/img/fail_picture.png'
+import failPicture from '@/assets/images/fail_picture.png'
 import { defineProps, ref } from 'vue'
 
 const props = defineProps({

@@ -49,7 +49,7 @@
 </template>
 
 <script setup>
-import failPicture from '@/assets/img/fail_picture.png'
+import failPicture from '@/assets/images/fail_picture.png'
 import Hamburger from '../components/Hamburger/index.vue'
 import Breadcrumb from '../components/Breadcrumb/index.vue'
 import { useAppStore } from '@/stores/app'

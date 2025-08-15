@@ -41,7 +41,7 @@
 </template>
 
 <script setup>
-import failPicture from '@/assets/img/fail_picture.png'
+import failPicture from '@/assets/images/fail_picture.png'
 import { ref, computed } from 'vue'
 import { useAppStore } from '@/stores/app'
 import { useRouter } from 'vue-router'
