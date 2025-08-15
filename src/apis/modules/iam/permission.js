@@ -3,58 +3,65 @@ import axios from '@/apis/axios'
 const PERMISSION = '/iam/permission'
 
 export default {
-  addPermission: input => {
+  addPermission: (params, data) => {
     return axios({
       desc: '新增权限',
       method: 'post',
       url: `${PERMISSION}/addPermission`,
-      data: input
+      data: params
     })
   },
-  deletePermission: id => {
+  deletePermission: (params, data) => {
     return axios({
       desc: '删除权限',
-      url: `${PERMISSION}/deletePermission?permissionId=${id}`
+      url: `${PERMISSION}/deletePermission`,
+      params: { permissionId: params }
     })
   },
-  editPermission: input => {
+  editPermission: (params, data) => {
     return axios({
       desc: '修改权限',
       method: 'post',
       url: `${PERMISSION}/editPermission`,
-      data: input
+      data: params
     })
   },
-  getPermissionsByPage: (num, size) => {
+  getPermissionsByPage: (params, data) => {
     return axios({
       desc: '查询权限分页',
-      url: `${PERMISSION}/getPermissionsByPage?pageNum=${num}&pageSize=${size}`
+      url: `${PERMISSION}/getPermissionsByPage`,
+      params: {
+        pageNum: params,
+        pageSize: data
+      }
     })
   },
-  getPermissionsByPageConditionally: input => {
+  getPermissionsByPageConditionally: (params, data) => {
     return axios({
       desc: '条件查询权限分页',
       method: 'post',
       url: `${PERMISSION}/getPermissionsByPageConditionally`,
-      data: input
+      data: params
     })
   },
-  getPermissions: () => {
+  getPermissions: (params, data) => {
     return axios({
       desc: '查询全量权限列表',
       url: `${PERMISSION}/getPermissions`
     })
   },
-  getPermissionIdsOfRole: id => {
+  getPermissionIdsOfRole: (params, data) => {
     return axios({
       desc: '查询某角色所具有的权限ID列表',
-      url: `${PERMISSION}/getPermissionIdsOfRole?roleId=${id}`
+      url: `${PERMISSION}/getPermissionIdsOfRole`,
+      params: { roleId: params }
     })
   },
-  getRowNumStartFrom1: id => {
+  getRowNumStartFrom1: (params, data) => {
     return axios({
       desc: '查询权限的排名（从1开始）',
-      url: `${PERMISSION}/getRowNumStartFrom1?permissionId=${id}`
+      url: `${PERMISSION}/getRowNumStartFrom1`,
+      params: { permissionId: params }
     })
   }
 }

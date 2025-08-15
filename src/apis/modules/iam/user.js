@@ -3,80 +3,86 @@ import axios from '@/apis/axios'
 const USER = '/iam/user'
 
 export default {
-  register: input => {
+  register: (params, data) => {
     return axios({
       desc: '注册新用户',
       method: 'post',
       url: `${USER}/register`,
-      data: input
+      data: params
     })
   },
-  login: input => {
+  login: (params, data) => {
     return axios({
       desc: '用户登录（用户名+密码）',
       method: 'post',
       url: `${USER}/login`,
-      data: input
+      data: params
     })
   },
-  logout: () => {
+  logout: (params, data) => {
     return axios({
       desc: '退出登录',
       url: `${USER}/logout`
     })
   },
-  getAuthorizations: () => {
+  getAuthorizations: (params, data) => {
     return axios({
       desc: '获取用户的授权数据（角色+权限）',
       url: `${USER}/getAuthorizations`
     })
   },
-  updateAuthorizations: () => {
+  updateAuthorizations: (params, data) => {
     return axios({
       desc: '刷新用户的授权数据（角色+权限）',
       url: `${USER}/updateAuthorizations`
     })
   },
-  updateBinds: input => {
+  updateBinds: (params, data) => {
     return axios({
       desc: '更新用户绑定的角色',
       method: 'post',
       url: `${USER}/updateBinds`,
-      data: input
+      data: params
     })
   },
-  freeze: id => {
+  freeze: (params, data) => {
     return axios({
       desc: '冻结用户',
-      url: `${USER}/freeze?userId=${id}`
+      url: `${USER}/freeze`,
+      params: { userId: params }
     })
   },
-  unfreeze: id => {
+  unfreeze: (params, data) => {
     return axios({
       desc: '解冻用户',
-      url: `${USER}/unfreeze?userId=${id}`
+      url: `${USER}/unfreeze`,
+      params: { userId: params }
     })
   },
-  getUsersByPage: (num, size) => {
+  getUsersByPage: (params, data) => {
     return axios({
       desc: '查询用户分页',
-      url: `${USER}/getUsersByPage?pageNum=${num}&pageSize=${size}`
+      url: `${USER}/getUsersByPage`,
+      params: {
+        pageNum: params,
+        pageSize: data
+      }
     })
   },
-  getUsersByPageConditionally: input => {
+  getUsersByPageConditionally: (params, data) => {
     return axios({
       desc: '条件查询用户分页',
       method: 'post',
       url: `${USER}/getUsersByPageConditionally`,
-      data: input
+      data: params
     })
   },
-  changePassword: input => {
+  changePassword: (params, data) => {
     return axios({
       desc: '修改密码',
       method: 'post',
       url: `${USER}/changePassword`,
-      data: input
+      data: params
     })
   }
 }

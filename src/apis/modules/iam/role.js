@@ -3,72 +3,87 @@ import axios from '@/apis/axios'
 const ROLE = '/iam/role'
 
 export default {
-  addRole: input => {
+  addRole: (params, data) => {
     return axios({
       desc: '新增角色',
       method: 'post',
       url: `${ROLE}/addRole`,
-      data: input
+      data: params
     })
   },
-  deleteRole: id => {
+  deleteRole: (params, data) => {
     return axios({
       desc: '删除角色',
-      url: `${ROLE}/deleteRole?roleId=${id}`
+      url: `${ROLE}/deleteRole`,
+      params: { roleId: params }
     })
   },
-  updateGrants: input => {
+  updateGrants: (params, data) => {
     return axios({
       desc: '更新角色的授权',
       method: 'post',
       url: `${ROLE}/updateGrants`,
-      data: input
+      data: params
     })
   },
-  editRole: input => {
+  editRole: (params, data) => {
     return axios({
       desc: '修改角色',
       method: 'post',
       url: `${ROLE}/editRole`,
-      data: input
+      data: params
     })
   },
-  swapPosition: (id1, id2) => {
+  swapPosition: (params, data) => {
     return axios({
       desc: '交换位置',
-      url: `${ROLE}/swapPosition?id1=${id1}&id2=${id2}`
+      url: `${ROLE}/swapPosition`,
+      params: {
+        id1: params,
+        id2: data
+      }
     })
   },
-  getRolesByPage: (num, size) => {
+  getRolesByPage: (params, data) => {
     return axios({
       desc: '查询角色分页',
-      url: `${ROLE}/getRolesByPage?pageNum=${num}&pageSize=${size}`
+      url: `${ROLE}/getRolesByPage`,
+      params: {
+        pageNum: params,
+        pageSize: size
+      }
     })
   },
-  getRolesByPageConditionally: input => {
+  getRolesByPageConditionally: (params, data) => {
     return axios({
       desc: '条件查询角色分页',
       method: 'post',
       url: `${ROLE}/getRolesByPageConditionally`,
-      data: input
+      data: params
     })
   },
-  getRoles: () => {
+  getRoles: (params, data) => {
     return axios({
       desc: '查询全量角色列表',
       url: `${ROLE}/getRoles`
     })
   },
-  getRoleIdsOfUser: id => {
+  getRoleIdsOfUser: (params, data) => {
     return axios({
       desc: '查询某用户所具有的角色ID列表',
-      url: `${ROLE}/getRoleIdsOfUser?userId=${id}`
+      url: `${ROLE}/getRoleIdsOfUser`,
+      params: {
+        userId: params
+      }
     })
   },
-  getRowNumStartFrom1: id => {
+  getRowNumStartFrom1: (params, data) => {
     return axios({
       desc: '查询角色的排名（从1开始）',
-      url: `${ROLE}/getRowNumStartFrom1?roleId=${id}`
+      url: `${ROLE}/getRowNumStartFrom1`,
+      params: {
+        roleId: params
+      }
     })
   }
 }
