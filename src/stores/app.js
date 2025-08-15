@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { ref } from 'vue'
 import Storage from '@/utils/storage'
 import Logger from '@/utils/logger'
 
