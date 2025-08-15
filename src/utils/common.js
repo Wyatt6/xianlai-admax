@@ -20,6 +20,24 @@ export function notEmpty(data) {
 }
 
 /**
+ * 判断字符串是否为空串
+ * @param {*} str
+ * @returns true-空；false-非空
+ */
+export function isEmptyString(str) {
+  return str == null || str.length == 0
+}
+
+/**
+ * 判断字符串是否非空
+ * @param {*} str
+ * @returns true-非空；false-空
+ */
+export function notEmptyString(str) {
+  return !isEmptyString(str)
+}
+
+/**
  * 获取某个月有多少天
  * @param {*} year 年份
  * @param {*} month 月份

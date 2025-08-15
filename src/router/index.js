@@ -39,6 +39,11 @@ const routes = [
         path: RouteConst.REGISTER,
         name: 'register',
         component: Register
+      },
+      {
+        path: '/portal/reset-password',
+        name: 'resetPassword',
+        component: () => import('@/views/portal/reset_password/index.vue')
       }
     ]
   },
