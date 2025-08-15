@@ -1,4 +1,4 @@
-import request from '@/utils/request'
+import request from '@/apis/axios'
 
 const CAPTCHA = '/content/captcha'
 const PROFILE = '/content/profile'
@@ -13,7 +13,7 @@ export default {
     }
   },
   profile: {
-    editProfile: (input) => {
+    editProfile: input => {
       return request({
         desc: '修改个人信息',
         method: 'post',
@@ -21,7 +21,7 @@ export default {
         data: input
       })
     },
-    getProfile: (userId) => {
+    getProfile: userId => {
       return request({
         desc: '获取用户个人信息',
         url: `${PROFILE}/getProfile?userId=${userId}`

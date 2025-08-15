@@ -1,4 +1,4 @@
-import request from '@/utils/request'
+import request from '@/apis/axios'
 
 const BASIC = '/ledger/basic'
 const CHANNEL = '/ledger/channel'
@@ -7,13 +7,13 @@ const JOURNAL = '/ledger/journal'
 
 export default {
   basic: {
-    subscribe: (id) => {
+    subscribe: id => {
       return request({
         desc: '订阅记账本服务',
         url: `${BASIC}/subscribe`
       })
     },
-    unsubscribe: (id) => {
+    unsubscribe: id => {
       return request({
         desc: '取消订阅记账本服务',
         url: `${BASIC}/unsubscribe`
@@ -21,7 +21,7 @@ export default {
     }
   },
   channel: {
-    addChannel: (input) => {
+    addChannel: input => {
       return request({
         desc: '当前用户添加动账渠道',
         method: 'post',
@@ -29,13 +29,13 @@ export default {
         data: input
       })
     },
-    deleteChannel: (id) => {
+    deleteChannel: id => {
       return request({
         desc: '删除用户的某条动账渠道',
         url: `${CHANNEL}/deleteChannel?channelId=${id}`
       })
     },
-    editChannel: (input) => {
+    editChannel: input => {
       return request({
         desc: '编辑动账渠道',
         method: 'post',
@@ -57,7 +57,7 @@ export default {
     }
   },
   category: {
-    addCategory: (input) => {
+    addCategory: input => {
       return request({
         desc: '新增记账类别',
         method: 'post',
@@ -65,13 +65,13 @@ export default {
         data: input
       })
     },
-    deleteCategoryTree: (id) => {
+    deleteCategoryTree: id => {
       return request({
         desc: '删除记账类别及其子类别',
         url: `${CATEGORY}/deleteCategoryTree?id=${id}`
       })
     },
-    editCategory: (input) => {
+    editCategory: input => {
       return request({
         desc: '编辑记账类别',
         method: 'post',
@@ -105,7 +105,7 @@ export default {
     }
   },
   journal: {
-    addJournal: (input) => {
+    addJournal: input => {
       return request({
         desc: '新增记账流水',
         method: 'post',
@@ -113,13 +113,13 @@ export default {
         data: input
       })
     },
-    deleteJournal: (id) => {
+    deleteJournal: id => {
       return request({
         desc: '删除记账流水',
         url: `${JOURNAL}/deleteJournal?journalId=${id}`
       })
     },
-    editJournal: (input) => {
+    editJournal: input => {
       return request({
         desc: '编辑记账流水',
         method: 'post',
@@ -127,7 +127,7 @@ export default {
         data: input
       })
     },
-    getJournalsByPageConditionally: (condition) => {
+    getJournalsByPageConditionally: condition => {
       return request({
         desc: '条件查询记账流水分页数据',
         method: 'post',
@@ -135,7 +135,7 @@ export default {
         data: condition
       })
     },
-    getSumConditionally: (condition) => {
+    getSumConditionally: condition => {
       return request({
         desc: '条件查询总收入和总支出',
         method: 'post',

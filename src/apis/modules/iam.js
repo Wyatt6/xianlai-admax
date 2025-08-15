@@ -1,4 +1,4 @@
-import request from '@/utils/request'
+import request from '@/apis/axios'
 
 const USER = '/iam/user'
 const ROLE = '/iam/role'
@@ -6,7 +6,7 @@ const PERMISSION = '/iam/permission'
 
 export default {
   user: {
-    register: (input) => {
+    register: input => {
       return request({
         desc: '注册新用户',
         method: 'post',
@@ -14,7 +14,7 @@ export default {
         data: input
       })
     },
-    login: (input) => {
+    login: input => {
       return request({
         desc: '用户登录（用户名+密码）',
         method: 'post',
@@ -40,7 +40,7 @@ export default {
         url: `${USER}/updateAuthorizations`
       })
     },
-    updateBinds: (input) => {
+    updateBinds: input => {
       return request({
         desc: '更新用户绑定的角色',
         method: 'post',
@@ -48,13 +48,13 @@ export default {
         data: input
       })
     },
-    freeze: (id) => {
+    freeze: id => {
       return request({
         desc: '冻结用户',
         url: `${USER}/freeze?userId=${id}`
       })
     },
-    unfreeze: (id) => {
+    unfreeze: id => {
       return request({
         desc: '解冻用户',
         url: `${USER}/unfreeze?userId=${id}`
@@ -66,7 +66,7 @@ export default {
         url: `${USER}/getUsersByPage?pageNum=${num}&pageSize=${size}`
       })
     },
-    getUsersByPageConditionally: (input) => {
+    getUsersByPageConditionally: input => {
       return request({
         desc: '条件查询用户分页',
         method: 'post',
@@ -74,7 +74,7 @@ export default {
         data: input
       })
     },
-    changePassword: (input) => {
+    changePassword: input => {
       return request({
         desc: '修改密码',
         method: 'post',
@@ -84,7 +84,7 @@ export default {
     }
   },
   role: {
-    addRole: (input) => {
+    addRole: input => {
       return request({
         desc: '新增角色',
         method: 'post',
@@ -92,13 +92,13 @@ export default {
         data: input
       })
     },
-    deleteRole: (id) => {
+    deleteRole: id => {
       return request({
         desc: '删除角色',
         url: `${ROLE}/deleteRole?roleId=${id}`
       })
     },
-    updateGrants: (input) => {
+    updateGrants: input => {
       return request({
         desc: '更新角色的授权',
         method: 'post',
@@ -106,7 +106,7 @@ export default {
         data: input
       })
     },
-    editRole: (input) => {
+    editRole: input => {
       return request({
         desc: '修改角色',
         method: 'post',
@@ -126,7 +126,7 @@ export default {
         url: `${ROLE}/getRolesByPage?pageNum=${num}&pageSize=${size}`
       })
     },
-    getRolesByPageConditionally: (input) => {
+    getRolesByPageConditionally: input => {
       return request({
         desc: '条件查询角色分页',
         method: 'post',
@@ -140,13 +140,13 @@ export default {
         url: `${ROLE}/getRoles`
       })
     },
-    getRoleIdsOfUser: (id) => {
+    getRoleIdsOfUser: id => {
       return request({
         desc: '查询某用户所具有的角色ID列表',
         url: `${ROLE}/getRoleIdsOfUser?userId=${id}`
       })
     },
-    getRowNumStartFrom1: (id) => {
+    getRowNumStartFrom1: id => {
       return request({
         desc: '查询角色的排名（从1开始）',
         url: `${ROLE}/getRowNumStartFrom1?roleId=${id}`
@@ -154,7 +154,7 @@ export default {
     }
   },
   permission: {
-    addPermission: (input) => {
+    addPermission: input => {
       return request({
         desc: '新增权限',
         method: 'post',
@@ -162,13 +162,13 @@ export default {
         data: input
       })
     },
-    deletePermission: (id) => {
+    deletePermission: id => {
       return request({
         desc: '删除权限',
         url: `${PERMISSION}/deletePermission?permissionId=${id}`
       })
     },
-    editPermission: (input) => {
+    editPermission: input => {
       return request({
         desc: '修改权限',
         method: 'post',
@@ -182,7 +182,7 @@ export default {
         url: `${PERMISSION}/getPermissionsByPage?pageNum=${num}&pageSize=${size}`
       })
     },
-    getPermissionsByPageConditionally: (input) => {
+    getPermissionsByPageConditionally: input => {
       return request({
         desc: '条件查询权限分页',
         method: 'post',
@@ -196,13 +196,13 @@ export default {
         url: `${PERMISSION}/getPermissions`
       })
     },
-    getPermissionIdsOfRole: (id) => {
+    getPermissionIdsOfRole: id => {
       return request({
         desc: '查询某角色所具有的权限ID列表',
         url: `${PERMISSION}/getPermissionIdsOfRole?roleId=${id}`
       })
     },
-    getRowNumStartFrom1: (id) => {
+    getRowNumStartFrom1: id => {
       return request({
         desc: '查询权限的排名（从1开始）',
         url: `${PERMISSION}/getRowNumStartFrom1?permissionId=${id}`
