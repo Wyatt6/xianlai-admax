@@ -28,9 +28,9 @@ const captchaImage = ref('')
  */
 function refreshCaptcha(valid) {
   if (valid) {
-    API.content.captcha.getCaptcha().then(res => {
-      captchaKey.value = res.data.captchaKey
-      captchaImage.value = res.data.captchaImage
+    API.content.captcha.getCaptcha(null, null).then(result => {
+      captchaKey.value = result.data.captchaKey
+      captchaImage.value = result.data.captchaImage
     })
   }
 }
