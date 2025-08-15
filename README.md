@@ -2,8 +2,6 @@
 
 ![](./docs/xianlai-badge.svg) ![](./docs/admax-version-badge.svg)
 
-中文 | [English](README_EN.md)
-
 坚持不容易，请给作者点 ⭐️Star⭐️ 鼓励鼓励
 
 ---
@@ -17,4 +15,3 @@
 ## 前端技术栈
 
 ![](./docs/techstack_vue.svg) ![](./docs/techstack_element-plus.svg) ![](./docs/techstack_vite.svg) ![](./docs/techstack_vue-router.svg) ![](./docs/techstack_pinia.svg) ![](./docs/techstack_sass.svg) ![](./docs/techstack_sass-loader.svg) ![](./docs/techstack_eslint.svg) ![](./docs/techstack_prettier.svg) ![](./docs/techstack_axios.svg) ![](./docs/techstack_vite-awesome-svg-loader.svg)
-
