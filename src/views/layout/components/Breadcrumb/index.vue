@@ -46,12 +46,12 @@ watch(
 </script>
 
 <style lang="scss" scoped>
-@import '../../index.module.scss';
+@use '../../index.module.scss' as variables;
 
 .breadcrumb {
   display: inline-block;
   font-size: 14px;
-  line-height: $--navbar-height;
+  line-height: variables.$navbar-height;
   margin-left: 20px;
 
   .no-redirect {
@@ -65,7 +65,7 @@ watch(
   }
 
   .redirect:hover {
-    color: $--menu-active-text-color;
+    color: variables.$menu-active-text-color;
   }
 }
 </style>

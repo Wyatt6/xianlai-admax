@@ -1,7 +1,7 @@
 <template>
-  <div class="page-wrapper" :class="[layoutStore.sidebarExpand ? 'sidebar-expand' : 'sidebar-hidden']">
+  <div class="page-wrap" :class="[layoutStore.sidebarExpand ? '' : 'sidebar-hidden']">
     <Sidebar />
-    <div class="right-wrapper">
+    <div class="right-wrap">
       <div class="fixed-header">
         <Navbar />
         <Tagbar />
@@ -12,13 +12,13 @@
 </template>
 
 <script setup>
-import { watch } from 'vue'
-import { useAppStore } from '@/stores/app'
-import { useLayoutStore } from '@/stores/layout'
 import Sidebar from './Sidebar/index.vue'
 import Navbar from './Navbar/index.vue'
 import Tagbar from './Tagbar/index.vue'
 import Content from './Content/index.vue'
+import { watch } from 'vue'
+import { useAppStore } from '@/stores/app'
+import { useLayoutStore } from '@/stores/layout'
 import AuthorizationService from '@/services/authorization_service'
 import ProfileService from '@/services/profile_service'
 
@@ -49,35 +49,35 @@ watch(
 </script>
 
 <style lang="scss" scoped>
-@import './index.module.scss';
+@use './index.module.scss' as variables;
 
-.page-wrapper {
-  width: 100vw;
-  height: 100vh;
-  background-color: #f2f3f5;
+.page-wrap {
+  width: 100%;
+  height: 100%;
+  background-color: var(--el-bg-color-page);
 
-  .right-wrapper {
+  .right-wrap {
     height: 100%;
-    margin-left: $--sidebar-width;
-    transition: margin-left #{$--sidebar-transition-duration};
+    margin-left: variables.$sidebar-width;
+    transition: margin-left #{variables.$sidebar-transition-duration};
 
     .fixed-header {
       position: fixed;
       top: 0;
       right: 0;
       z-index: 1001;
-      width: calc(100% - #{$--sidebar-width});
-      transition: width #{$--sidebar-transition-duration};
+      width: calc(100% - variables.$sidebar-width);
+      transition: width #{variables.$sidebar-transition-duration};
     }
   }
 }
 
 .sidebar-hidden {
-  .right-wrapper {
-    margin-left: $--sidebar-width-hidden !important;
+  .right-wrap {
+    margin-left: variables.$sidebar-width-hidden !important;
 
     .fixed-header {
-      width: calc(100% - #{$--sidebar-width-hidden});
+      width: calc(100% - variables.$sidebar-width-hidden);
     }
   }
 }

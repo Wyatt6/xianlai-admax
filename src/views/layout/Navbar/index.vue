@@ -102,12 +102,12 @@ const logout = async () => {
 </script>
 
 <style lang="scss" scoped>
-@import '../index.module.scss';
+@use '../index.module.scss' as variables;
 
 .navbar-wrapper {
   width: 100%;
-  height: $--navbar-height;
-  background: $--navbar-color;
+  height: variables.$navbar-height;
+  background: variables.$navbar-color;
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
 
   .hamburger-container {

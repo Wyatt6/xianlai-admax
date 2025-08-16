@@ -60,7 +60,7 @@ const activeMenuPath = computed(() => {
 
 <style lang="scss">
 // 菜单栏收起状态二级菜单样式（通过修改全局el-popper实现自定义样式）
-@import '../index.module.scss';
+@use '../index.module.scss' as variables;
 
 $--poper-menu-item-height: 40px;
 $--poper-menu-item-padding-right: 13px;
@@ -77,13 +77,13 @@ $--poper-menu-item-padding-right: 13px;
   }
 
   .is-active .el-sub-menu__title {
-    color: $--menu-active-sub-menu-text-color !important;
+    color: variables.$menu-active-sub-menu-text-color !important;
   }
 }
 </style>
 
 <style lang="scss" scoped>
-@import '../index.module.scss';
+@use '../index.module.scss' as variables;
 
 $--menu-item-height: 40px;
 $--menu-item-mergin-left: -7px;
@@ -123,7 +123,7 @@ $--menu-item-padding-right: 13px;
 }
 
 ::v-deep .is-active .el-sub-menu__title {
-  color: $--menu-active-sub-menu-text-color !important;
+  color: variables.$menu-active-sub-menu-text-color !important;
 }
 
 // 滚动条宽度
@@ -134,7 +134,7 @@ $--menu-item-padding-right: 13px;
 
 // 菜单栏展开状态
 .sidebar-wrapper {
-  width: $--sidebar-width;
+  width: variables.$sidebar-width;
   height: 100%;
   position: fixed;
   top: 0;
@@ -142,8 +142,8 @@ $--menu-item-padding-right: 13px;
   left: 0;
   z-index: 1001;
   overflow: hidden;
-  background-color: $--sidebar-color;
-  transition: width #{$--sidebar-transition-duration};
+  background-color: variables.$sidebar-color;
+  transition: width #{variables.$sidebar-transition-duration};
 
   // 取消链接的下划线
   a:-webkit-any-link {
@@ -172,17 +172,17 @@ $--menu-item-padding-right: 13px;
   }
 
   .el-menu {
-    width: $--sidebar-width !important;
-    transition: width #{$--sidebar-transition-duration};
+    width: variables.$sidebar-width !important;
+    transition: width #{variables.$sidebar-transition-duration};
   }
 }
 
 // 菜单栏收起状态
 .sidebar-hidden {
-  width: $--sidebar-width-hidden !important;
+  width: variables.$sidebar-width-hidden !important;
 
   .el-menu {
-    width: $--sidebar-width-hidden !important;
+    width: variables.$sidebar-width-hidden !important;
   }
 }
 </style>

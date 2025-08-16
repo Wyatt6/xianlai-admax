@@ -51,7 +51,7 @@ watch(
 </script>
 
 <style lang="scss" scoped>
-@import '../index.module.scss';
+@use '../index.module.scss' as variables;
 
 $--padding-top: 5px;
 $--padding-left-right: 8px;
@@ -59,7 +59,8 @@ $--padding-left-right: 8px;
 .content-wrapper {
   width: 100%;
   height: 100%;
-  padding: calc($--navbar-height + $--tagbar-height + $--padding-top) $--padding-left-right 0px $--padding-left-right;
+  padding: calc(variables.$navbar-height + variables.$tagbar-height + $--padding-top) $--padding-left-right 0px
+    $--padding-left-right;
   overflow: hidden;
   box-sizing: border-box;
 }

@@ -103,7 +103,7 @@ watch(
 </script>
 
 <style lang="scss" scoped>
-@import '../index.module.scss';
+@use '../index.module.scss' as variables;
 
 a {
   text-decoration: none !important;
@@ -115,8 +115,8 @@ a {
 
 .tagbar-wrapper {
   width: 100%;
-  height: $--tagbar-height;
-  background: $--tagbar-color;
+  height: variables.$tagbar-height;
+  background: variables.$tagbar-color;
   border-bottom: 1px solid #d8dce5;
   box-shadow:
     0 1px 3px 0 rgba(0, 0, 0, 0.12),
