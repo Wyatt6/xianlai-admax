@@ -8,7 +8,7 @@ export const useSystemStore = defineStore('system', () => {
   const systemOptions = ref(null)
   const systemOptionsChecksum = ref(null)
 
-  async function getSystemOptions() {
+  async function initialize() {
     if (!gettingSystemOptions.value) {
       gettingSystemOptions.value = true
       await axios
@@ -38,6 +38,6 @@ export const useSystemStore = defineStore('system', () => {
   return {
     systemOptions,
     systemOptionsChecksum,
-    getSystemOptions
+    initialize
   }
 })

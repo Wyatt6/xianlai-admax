@@ -15,6 +15,6 @@ app.use(createPinia())
 app.use(router)
 
 const systemStore = useSystemStore()
-await systemStore.getSystemOptions()
+await systemStore.initialize()
 
 app.mount('#app')
