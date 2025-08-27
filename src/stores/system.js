@@ -24,12 +24,12 @@ export const useSystemStore = defineStore('system', () => {
             apisChecksum.value = result.data.apisChecksum
             // TODO 封装系统接口对象
           } else {
-            ElMessage.error('无法获取系统接口，请稍后再试')
+            ElMessage.error('无法加载系统接口，请稍后再试')
             // TODO 跳转到错误页面
           }
         })
         .catch(error => {
-          ElMessage.error('无法获取系统接口，请稍后再试')
+          ElMessage.error('无法记载系统接口，请稍后再试')
           // TODO 跳转到错误页面
           console.error(error)
         })
@@ -39,41 +39,54 @@ export const useSystemStore = defineStore('system', () => {
     }
   }
 
-  const gettingSystemOptions = ref(false)
-  const systemOptions = ref(null)
-  const systemOptionsChecksum = ref(null)
+  const gettingOptions = ref(false)
+  const options = ref(null)
+  const optionsChecksum = ref(null)
 
-  async function initialize() {
-    await getApis()
-
-    if (!gettingSystemOptions.value) {
-      gettingSystemOptions.value = true
+  async function getOptions() {
+    if (!gettingOptions.value) {
+      gettingOptions.value = true
+      document.getElementById('loadingSubTitle').innerHTML = '[ 加载系统参数 ]'
       await axios
+        .get('/api/admax/system/option/getOptions', {
           headers: { 'Content-Type': 'application/json; charset=utf-8' },
           timeout: 60000
         })
         .then(reponse => {
           const result = reponse.data
           if (result.success) {
-            systemOptions.value = result.data.systemOptions
-            systemOptionsChecksum.value = result.data.systemOptionsChecksum
+            options.value = result.data.options
+            optionsChecksum.value = result.data.optionsChecksum
           } else {
-            ElMessage.error('初始化失败，请稍后再试')
+            ElMessage.error('无法加载系统参数，请稍后再试')
+            // TODO 跳转到错误页面
           }
         })
         .catch(error => {
-          ElMessage.error('初始化失败')
+          ElMessage.error('无法加载系统参数，请稍后再试')
           console.error(error)
+          // TODO 跳转到错误页面
         })
         .finally(() => {
-          gettingSystemOptions.value = false
+          gettingOptions.value = false
         })
     }
   }
 
+  async function initialize() {
+    await getApis()
+    await getOptions()
+  }
+
   return {
-    systemOptions,
-    systemOptionsChecksum,
+    apis,
+    apisChecksum,
+    getApis,
+
+    options,
+    optionsChecksum,
+    getOptions,
+
     initialize
   }
 })
