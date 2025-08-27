@@ -25,12 +25,10 @@ export const useSystemStore = defineStore('system', () => {
             // TODO 封装系统接口对象
           } else {
             ElMessage.error('无法加载系统接口，请稍后再试')
-            // TODO 跳转到错误页面
           }
         })
         .catch(error => {
           ElMessage.error('无法记载系统接口，请稍后再试')
-          // TODO 跳转到错误页面
           console.error(error)
         })
         .finally(() => {
@@ -59,13 +57,11 @@ export const useSystemStore = defineStore('system', () => {
             optionsChecksum.value = result.data.optionsChecksum
           } else {
             ElMessage.error('无法加载系统参数，请稍后再试')
-            // TODO 跳转到错误页面
           }
         })
         .catch(error => {
           ElMessage.error('无法加载系统参数，请稍后再试')
           console.error(error)
-          // TODO 跳转到错误页面
         })
         .finally(() => {
           gettingOptions.value = false
@@ -75,7 +71,14 @@ export const useSystemStore = defineStore('system', () => {
 
   async function initialize() {
     await getApis()
+    if (apis.value == null) {
+      return
+    }
+
     await getOptions()
+    if (options.value == null) {
+      return
+    }
   }
 
   return {
