@@ -11,6 +11,7 @@ export const useSystemStore = defineStore('system', () => {
   async function getApis() {
     if (!gettingApis.value) {
       gettingApis.value = true
+      document.getElementById('loadingSubTitle').innerHTML = '[ 加载系统接口 ]'
       await axios
         .get('/api/admax/system/api/getApis', {
           headers: { 'Content-Type': 'application/json; charset=utf-8' },
