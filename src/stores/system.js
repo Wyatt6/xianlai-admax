@@ -11,7 +11,7 @@ export const useSystemStore = defineStore('system', () => {
   async function getApis() {
     if (!gettingApis.value) {
       gettingApis.value = true
-      document.getElementById('loadingSubTitle').innerHTML = '[ 加载系统接口 ]'
+      document.getElementById('initSubTitle').innerHTML = '[ 加载系统接口 ]'
       await axios
         .get('/api/admax/system/api/getApis', {
           headers: { 'Content-Type': 'application/json; charset=utf-8' },
@@ -44,7 +44,7 @@ export const useSystemStore = defineStore('system', () => {
   async function getOptions() {
     if (!gettingOptions.value) {
       gettingOptions.value = true
-      document.getElementById('loadingSubTitle').innerHTML = '[ 加载系统参数 ]'
+      document.getElementById('initSubTitle').innerHTML = '[ 加载系统参数 ]'
       await axios
         .get('/api/admax/system/option/getOptions', {
           headers: { 'Content-Type': 'application/json; charset=utf-8' },
@@ -69,16 +69,25 @@ export const useSystemStore = defineStore('system', () => {
     }
   }
 
-  async function initialize() {
+  function initFail() {
+    document.getElementById('init').style.display = 'none'
+    document.getElementById('initFail').style.display = 'flex'
+  }
+
+  async function initialize(app) {
     await getApis()
     if (apis.value == null) {
+      initFail()
       return
     }
 
     await getOptions()
     if (options.value == null) {
+      initFail()
       return
     }
+
+    app.mount('#app')
   }
 
   return {

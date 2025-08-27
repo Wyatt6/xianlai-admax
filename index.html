@@ -9,11 +9,17 @@
   </head>
   <body>
     <div id="app">
-      <div class="loader-wrap">
-        <div class="loader">
-          <img class="loading-icon" src="/loading.svg"></img>
-          <span class="loading-title">正在初始化，请稍候 . . . . . .</span>
-          <span class="loading-sub-title" id="loadingSubTitle"></span>
+      <div class="init-wrap">
+        <div class="init" id="init">
+          <img class="init-icon" src="/loading.svg"></img>
+          <span class="init-title">正在初始化，请稍候 . . . . . .</span>
+          <span class="init-sub-title" id="initSubTitle"></span>
+        </div>
+        <div class="init-fail" id="initFail">
+          <img class="init-icon" src="/load-fail.svg"></img>
+          <span class="init-title">初始化失败，请稍候重试</span>
+          <span class="init-sub-title" id="initSubTitle">刷新页面或<a href="/">点击此处</a>重试
+          </span>
         </div>
       </div>
     </div>
