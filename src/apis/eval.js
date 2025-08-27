@@ -1,6 +1,9 @@
 //axios 配置详见：https://www.axios-http.cn/docs/req_config
 import axios from 'axios'
+import { useOptionStore } from '@/options'
 import { notEmpty } from '@/utils/common'
+
+const Options = useOptionStore()
 
 /**
  * 创建axios对象实例
@@ -12,7 +15,7 @@ import { notEmpty } from '@/utils/common'
 const instance = axios.create({
   baseURL: '/api',
   headers: { 'Content-Type': 'application/json; charset=utf-8' },
-  timeout: 60000
+  timeout: Options.data.request.timeout
   // ...其他配置使用axios的默认值
 })
 

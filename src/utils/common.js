@@ -18,3 +18,12 @@ export function isEmpty(data) {
 export function notEmpty(data) {
   return !isEmpty(data)
 }
+
+/**
+ * 检查字符串是否非null且至少含有一个非空白字符
+ * @param {*} data
+ * @returns
+ */
+export function hasText(str) {
+  return str != null && str.length > 0 && str.trim().length > 0
+}
