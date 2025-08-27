@@ -1,41 +1,10 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import { useOptionStore } from '@/options'
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
 
 export const useSystemStore = defineStore('system', () => {
-  const gettingOptions = ref(false)
-  const options = ref(null)
-  const optionsChecksum = ref(null)
-
-  async function getOptions() {
-    if (!gettingOptions.value) {
-      gettingOptions.value = true
-      document.getElementById('initSubTitle').innerHTML = '[ 加载系统参数 ]'
-      await axios
-        .get('/api/admax/system/option/getOptions', {
-          headers: { 'Content-Type': 'application/json; charset=utf-8' },
-          timeout: 60000
-        })
-        .then(reponse => {
-          const result = reponse.data
-          if (result.success) {
-            options.value = result.data.options
-            optionsChecksum.value = result.data.optionsChecksum
-          } else {
-            ElMessage.error('无法加载系统参数，请稍后再试')
-          }
-        })
-        .catch(error => {
-          ElMessage.error('无法加载系统参数，请稍后再试')
-          console.error(error)
-        })
-        .finally(() => {
-          gettingOptions.value = false
-        })
-    }
-  }
-
   const gettingApis = ref(false)
   const apis = ref(null)
   const apisChecksum = ref(null)
@@ -54,7 +23,6 @@ export const useSystemStore = defineStore('system', () => {
           if (result.success) {
             apis.value = result.data.apis
             apisChecksum.value = result.data.apisChecksum
-            // TODO 封装系统接口对象
           } else {
             ElMessage.error('无法加载系统接口，请稍后再试')
           }
@@ -75,8 +43,9 @@ export const useSystemStore = defineStore('system', () => {
   }
 
   async function initialize(app) {
-    await getOptions()
-    if (options.value == null) {
+    const Options = useOptionStore()
+    await Options.getOptions()
+    if (Options.data == null) {
       initFail()
       return
     }
@@ -91,10 +60,6 @@ export const useSystemStore = defineStore('system', () => {
   }
 
   return {
-    options,
-    optionsChecksum,
-    getOptions,
-
     apis,
     apisChecksum,
     getApis,
