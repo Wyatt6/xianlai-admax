@@ -5,6 +5,7 @@ import { useApiStore } from '.'
 import { notEmpty, hasText } from '@/utils/common'
 import RequestLogger from './request_logger'
 import Logger from '@/utils/logger'
+import { ElMessage } from 'element-plus'
 
 function createAxiosInstance() {
   const Options = useOptionStore()
@@ -77,7 +78,25 @@ function createAxiosInstance() {
      * 对于这些标准化错误，在这里统一打印日志、显示提示信息，不需要调用方在catch块处理
      */
     function (error) {
-      // TODO 显示错误信息
+      let message = error.message
+      if (error.response) {
+        // 请求成功发出且服务器也响应了状态码（并不是由后端应用程序返回的），但状态码非2xx
+        const status = error.response.status
+        switch (status) {
+          case 500:
+            message = '服务器内部错误'
+            break
+        }
+        RequestLogger.receive.error(error, message)
+      } else if (error.request) {
+        // 请求已经成功发起，但没有收到服务器响应
+        if (error.code === 'ECONNABORTED') {
+          message = '服务器连接超时'
+        }
+        Logger.send.error(error, message)
+      }
+      ElMessage.error(message)
+
       // 这里一定要向调用方reject，调用方可以不写catch子句或catch子句为空去忽略，因为上面已经统一处理过了
       // 但是如果不写return语句或返回普通值，则是作为调用方的then()函数的输入参数值，可能会干扰then()里正常的业务逻辑
       return Promise.reject(error)
