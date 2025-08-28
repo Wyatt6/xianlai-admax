@@ -12,7 +12,8 @@ export const useOptionStore = defineStore('option', () => {
   async function getOptions() {
     if (!getting.value) {
       getting.value = true
-      document.getElementById('initSubTitle').innerHTML = '[ 加载系统参数 ]'
+      const initSubTitle = document.getElementById('initSubTitle')
+      if (initSubTitle != null) initSubTitle.innerHTML = '[ 加载系统参数 ]'
       await axios
         .get('/api/admax/system/option/getOptions', {
           headers: { 'Content-Type': 'application/json; charset=utf-8' },
