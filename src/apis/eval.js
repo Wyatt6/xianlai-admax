@@ -1,7 +1,7 @@
 //axios 配置详见：https://www.axios-http.cn/docs/req_config
 import axios from 'axios'
 import { useOptionStore } from '@/options'
-import { notEmpty } from '@/utils/common'
+import { notEmpty, hasText } from '@/utils/common'
 
 function createAxiosInstance() {
   const Options = useOptionStore()
@@ -38,7 +38,7 @@ export function evalApis(request, result) {
       if (j == paths.length - 1) {
         now[paths[j]] = (requestParams, requestData) => {
           const config = { method: requestMethod, url: url }
-          if (description && description.length > 0 && description != 'null') config.desc = description
+          if (hasText(description)) config.desc = description
           if (notEmpty(requestParams)) config.params = requestParams
           if (notEmpty(requestData)) config.data = requestData
           return axiosInstance(config)
