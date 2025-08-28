@@ -1,12 +1,14 @@
 //axios 配置详见：https://www.axios-http.cn/docs/req_config
 import axios from 'axios'
 import { useOptionStore } from '@/options'
+import { useApiStore } from '.'
 import { notEmpty, hasText } from '@/utils/common'
 import RequestLogger from './request_logger'
 import Logger from '@/utils/logger'
 
 function createAxiosInstance() {
   const Options = useOptionStore()
+  const Apis = useApiStore()
 
   const instance = axios.create({
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
@@ -44,7 +46,20 @@ function createAxiosInstance() {
       const config = response.config
       const result = response.data
       RequestLogger.receive.info(config, result)
-      // TODO 判断checksum是否有变更
+
+      if (result.data && result.data.optionsChecksum) {
+        if (Options.checksum == null || Options.checksum != result.data.optionsChecksum) {
+          Logger.log('系统参数有变更，获取新数据')
+          Options.getOptions()
+        }
+      }
+      if (result.data && result.data.apisChecksum) {
+        if (Apis.checksum == null || Apis.checksum != result.data.apisChecksum) {
+          Logger.log('系统接口有变更，获取新数据')
+          Apis.getApis()
+        }
+      }
+
       if (!result.success && result.data && result.data.code) {
         // 分支1: 后端返回有错误码时统一处理
         // TODO 处理后端通过错误码返回的401、403等错误
