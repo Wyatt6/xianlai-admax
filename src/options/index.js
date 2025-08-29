@@ -19,8 +19,8 @@ export const useOptionStore = defineStore('option', () => {
           headers: { 'Content-Type': 'application/json; charset=utf-8' },
           timeout: 60000
         })
-        .then(reponse => {
-          const result = reponse.data
+        .then(response => {
+          const result = response.data
           if (result.success) {
             evalOptions(data, result.data.options)
             checksum.value = result.data.optionsChecksum
