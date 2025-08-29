@@ -1,3 +1,8 @@
+/**
+ * 系统参数使用方法：
+ * const Options = useOptionStore()
+ * Options.data.xxx.xxx
+ */
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import axios from 'axios'
