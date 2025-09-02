@@ -1,4 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import Logger from '@/utils/logger'
+import { notEmpty } from '@/utils/common'
+import Token from '@/utils/token'
+import { ElMessage } from 'element-plus'
+import { useSystemStore } from '@/stores/system'
 
 const builtInRoutes = [
   {
@@ -37,6 +42,39 @@ const router = createRouter({
  * @param {*} from 从哪里来
  * @param {*} next 是否要去？
  */
-router.beforeEach((to, from, next) => {})
+router.beforeEach(async (to, from, next) => {
+  Logger.log('路由前置守卫程序 ' + from.path + ' ---> ' + to.path, '')
+  if (notEmpty(to.meta) && to.meta.login) {
+    // 分支1
+    Logger.log('访问须要先登录才能访问的路由')
+    if (Token.hasToken() && !Token.isExpired()) {
+      Logger.log('用户已登录，token未过期')
+      // TODO 判断用户是否有权限访问
+      next()
+    } else {
+      Logger.log('用户未登录或登录已过期，重定向到登录页面')
+      if (!Token.hasToken()) {
+        ElMessage.error('用户未登录')
+      } else {
+        ElMessage.error('登录已过期，请重新登录')
+      }
+      await useSystemStore().resetStoreAndStorage()
+      next('/portal/login')
+    }
+  } else {
+    // 分支2
+    Logger.log('访问不需要登录即可访问的路由')
+    if (
+      (to.path === '/portal' || to.path === '/portal/login' || to.path === '/portal/register' || to.path === 'reset-password') &&
+      Token.hasToken() &&
+      !Token.isExpired()
+    ) {
+      Logger.log('用户已登录，不允许访问门户页面，重定向到主页')
+      next('/')
+    } else {
+      next()
+    }
+  }
+})
 
 export default router

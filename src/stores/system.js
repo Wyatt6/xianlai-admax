@@ -23,7 +23,10 @@ export const useSystemStore = defineStore('system', () => {
     app.mount('#app')
   }
 
+  async function resetStoreAndStorage() {}
+
   return {
-    initialize
+    initialize,
+    resetStoreAndStorage
   }
 })
