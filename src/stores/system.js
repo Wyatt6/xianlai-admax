@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { useOptionStore } from '@/options'
+import router from '@/router'
 
 export const useSystemStore = defineStore('system', () => {
   function initFail() {
@@ -18,6 +19,7 @@ export const useSystemStore = defineStore('system', () => {
     // TODO 异步获取额外路由数据
     // TODO 异步获取额外接口数据
 
+    app.use(router)
     app.mount('#app')
   }
 
