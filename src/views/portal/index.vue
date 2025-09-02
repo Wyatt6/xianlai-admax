@@ -1,21 +1,35 @@
 <template>
   <div class="page-wrap">
-    <el-card class="main-card">
-      <div class="half-card cover-img">
-        <div class="cover-text">
-          <div class="cover-title">{{ coverTitle }}</div>
-          <div class="cover-subtitle">{{ coverSubTitle }}</div>
+    <div class="card-wrap">
+      <el-card class="main-card">
+        <div class="half-card cover-img">
+          <div class="cover-text">
+            <div class="cover-title">{{ coverTitle }}</div>
+            <div class="cover-subtitle">{{ coverSubTitle }}</div>
+          </div>
         </div>
-      </div>
-      <div class="half-card input-box">
-        <RouterView />
-      </div>
-    </el-card>
+        <div class="half-card input-box">
+          <RouterView />
+        </div>
+      </el-card>
+    </div>
+    <div class="footer">
+      <span v-if="hasText(Options.data.portal.footerCopyright)">{{ Options.data.portal.footerCopyright }}</span>
+      <span v-if="hasText(Options.data.portal.footerBeianIcp)">&nbsp;&nbsp;</span>
+      <a v-if="hasText(Options.data.portal.footerBeianIcp)" target="_blank" href="https://beian.miit.gov.cn/">
+        {{ Options.data.portal.footerBeianIcp }}
+      </a>
+      <span v-if="hasText(Options.data.portal.footerBeianGongan)">&nbsp;&nbsp;</span>
+      <a v-if="hasText(Options.data.portal.footerBeianGongan)" target="_blank" href="https://beian.mps.gov.cn/">
+        {{ Options.data.portal.footerBeianGongan }}
+      </a>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { useOptionStore } from '@/options'
+import { hasText } from '@/utils/common'
 import { ref } from 'vue'
 
 const Options = useOptionStore()
@@ -51,61 +65,78 @@ const coverSubTitleColor = ref(Options.data.portal.coverSubTitleColor)
   width: 100%;
   height: 100%;
   background-color: var(--el-bg-color-page);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  $--footer-height: 4rem;
 
-  .main-card {
-    $--main-card-width: 100rem;
-    $--main-card-height: 60rem;
-    width: $--main-card-width;
-    height: $--main-card-height;
-    border-radius: 0;
+  .card-wrap {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    :deep(.el-card__body) {
-      width: 100%;
-      height: 100%;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-    }
+    .main-card {
+      $--main-card-width: 100rem;
+      $--main-card-height: 60rem;
+      width: $--main-card-width;
+      height: $--main-card-height;
+      border-radius: 0;
 
-    .half-card {
-      width: 50%;
-      height: 100%;
-    }
+      :deep(.el-card__body) {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+      }
 
-    .cover-img {
-      background-image: v-bind(coverImage);
-      background-size: 100% 100%;
-      display: flex;
-      justify-content: center;
+      .half-card {
+        width: 50%;
+        height: 100%;
+      }
 
-      .cover-text {
-        width: 80%;
-        height: 10rem;
-        margin-top: 5rem;
-        cursor: default;
+      .cover-img {
+        background-image: v-bind(coverImage);
+        background-size: 100% 100%;
+        display: flex;
+        justify-content: center;
 
-        .cover-title {
-          font-size: v-bind(coverTitleSize);
-          color: v-bind(coverTitleColor);
-        }
+        .cover-text {
+          width: 80%;
+          height: 10rem;
+          margin-top: 9rem;
+          cursor: default;
 
-        .cover-subtitle {
-          font-size: v-bind(coverSubTitleSize);
-          color: v-bind(coverSubTitleColor);
+          .cover-title {
+            font-size: v-bind(coverTitleSize);
+            font-weight: 900;
+            color: v-bind(coverTitleColor);
+          }
+
+          .cover-subtitle {
+            font-size: v-bind(coverSubTitleSize);
+            color: v-bind(coverSubTitleColor);
+          }
         }
       }
-    }
 
-    .input-box {
-      $--input-box-padding: 6rem;
-      padding: $--input-box-padding;
-      width: calc($--main-card-width / 2 - 2 * $--input-box-padding);
-      height: calc($--main-card-height - 2 * $--input-box-padding);
+      .input-box {
+        $--input-box-padding: 7rem;
+        padding: $--input-box-padding;
+        width: calc($--main-card-width / 2 - 2 * $--input-box-padding);
+        height: calc($--main-card-height - 2 * $--input-box-padding);
+      }
     }
+  }
+
+  .footer {
+    width: 100%;
+    height: $--footer-height;
+    margin-top: -$--footer-height;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
   }
 }
 </style>

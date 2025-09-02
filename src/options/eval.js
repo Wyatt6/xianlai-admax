@@ -15,7 +15,10 @@ export const defaultOptions = {
     coverTitleColor: '#ffffff',
     coverSubTitle: '这里是封面副标题，可以写点简单的介绍',
     coverSubTitleSize: 2,
-    coverSubTitleColor: '#ffffff'
+    coverSubTitleColor: '#ffffff',
+    footerCopyright: null,
+    footerBeianIcp: null,
+    footerBeianGongan: null
   },
   captcha: {
     length: 5
