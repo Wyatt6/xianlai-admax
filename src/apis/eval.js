@@ -110,11 +110,11 @@ export function evalApis(request, result) {
   request.value = {}
   const axiosInstance = createAxiosInstance()
 
-  for (var i = 0; i < result.length; i++) {
+  for (let i = 0; i < result.length; i++) {
     const { callPath, requestMethod, url, description } = result[i]
     const paths = callPath.split('.')
-    var now = request.value
-    for (var j = 0; j < paths.length; j++) {
+    let now = request.value
+    for (let j = 0; j < paths.length; j++) {
       now[paths[j]] = {}
       if (j == paths.length - 1) {
         now[paths[j]] = (requestParams, requestData) => {
