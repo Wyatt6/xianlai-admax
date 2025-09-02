@@ -1,7 +1,5 @@
 import { defineStore } from 'pinia'
 import { useOptionStore } from '@/options'
-import { useApiStore } from '@/apis'
-import { useRouteStore } from '@/router'
 
 export const useSystemStore = defineStore('system', () => {
   function initFail() {
@@ -17,13 +15,8 @@ export const useSystemStore = defineStore('system', () => {
       return
     }
 
-    // 异步获取路由数据
-    const Routes = useRouteStore()
-    Routes.getRoutes()
-
-    // 异步获取接口数据
-    const Apis = useApiStore()
-    Apis.getApis()
+    // TODO 异步获取额外路由数据
+    // TODO 异步获取额外接口数据
 
     app.mount('#app')
   }
