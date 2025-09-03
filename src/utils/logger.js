@@ -1,4 +1,4 @@
-import { useOptionStore } from '@/options'
+import { useOptionStore } from '@/stores/option'
 
 export default {
   log: (...args) => {
