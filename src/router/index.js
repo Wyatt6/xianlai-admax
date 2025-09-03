@@ -1,3 +1,21 @@
+/**
+ * 路由定义方法：
+ * {
+ *   path: '/xxx/xxx',
+ *   redirect: '/xxx/xxx',
+ *   name: 'route name',
+ *   component: () => import('@/xxx/xxx/xxx.vue'),
+ *   meta: {
+ *     login: false,
+ *     permission: 'permission identifier',
+ *     menu: true,
+ *     icon: 'icon display to menu',
+ *     label: 'label display to menu'
+ *   },
+ *   children: []
+ * }
+ */
+
 import { createRouter, createWebHistory } from 'vue-router'
 import Logger from '@/utils/logger'
 import { notEmpty } from '@/utils/common'
@@ -28,6 +46,12 @@ const builtInRoutes = [
         component: () => import('@/views/portal/reset_password/index.vue')
       }
     ]
+  },
+  // 不匹配时（即页面不存在）的路由，须放在最后
+  {
+    path: '/:catchAll(.*)',
+    redirect: '/404',
+    name: 'final_not_match'
   }
 ]
 
@@ -65,13 +89,14 @@ router.beforeEach(async (to, from, next) => {
     // 分支2
     Logger.log('访问不需要登录即可访问的路由')
     if (
-      (to.path === '/portal' || to.path === '/portal/login' || to.path === '/portal/register' || to.path === 'reset-password') &&
+      (to.path === '/portal' || to.path === '/portal/login' || to.path === '/portal/register' || to.path === '/portal/reset-password') &&
       Token.hasToken() &&
       !Token.isExpired()
     ) {
       Logger.log('用户已登录，不允许访问门户页面，重定向到主页')
       next('/')
     } else {
+      Logger.log('其他非门户的白名单页面不论登录与否均可访问')
       next()
     }
   }
