@@ -1,5 +1,5 @@
 /**
- * 系统参数使用方法：
+ * 参数使用方法：
  * const Options = useOptionStore()
  * Options.data.xxx.xxx
  */
