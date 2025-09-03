@@ -1,15 +1,13 @@
 //axios 配置详见：https://www.axios-http.cn/docs/req_config
 import axios from 'axios'
 import { useOptionStore } from '@/options'
-import { useApiStore } from '.'
-import { notEmpty, hasText } from '@/utils/common'
 import RequestLogger from './request_logger'
 import Logger from '@/utils/logger'
 import { ElMessage } from 'element-plus'
+import { isEmpty, hasText } from '@/utils/common'
 
 function createAxiosInstance() {
   const Options = useOptionStore()
-  const Apis = useApiStore()
 
   const instance = axios.create({
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
@@ -47,20 +45,18 @@ function createAxiosInstance() {
       const config = response.config
       const result = response.data
       RequestLogger.receive.info(config, result)
-
-      if (result.data && result.data.optionsChecksum) {
+      if (result.data && hasText(result.data.optionsChecksum)) {
         if (Options.checksum == null || Options.checksum != result.data.optionsChecksum) {
           Logger.log('系统参数有变更，获取新数据')
           Options.getOptions()
         }
       }
-      if (result.data && result.data.apisChecksum) {
+      if (result.data && hasText(result.data.apisChecksum)) {
         if (Apis.checksum == null || Apis.checksum != result.data.apisChecksum) {
           Logger.log('系统接口有变更，获取新数据')
           Apis.getApis()
         }
       }
-
       if (!result.success && result.data && result.data.code) {
         // 分支1: 后端返回有错误码时统一处理
         // TODO 处理后端通过错误码返回的401、403等错误
@@ -96,7 +92,6 @@ function createAxiosInstance() {
         Logger.send.error(error, message)
       }
       ElMessage.error(message)
-
       // 这里一定要向调用方reject，调用方可以不写catch子句或catch子句为空去忽略，因为上面已经统一处理过了
       // 但是如果不写return语句或返回普通值，则是作为调用方的then()函数的输入参数值，可能会干扰then()里正常的业务逻辑
       return Promise.reject(error)
@@ -106,16 +101,13 @@ function createAxiosInstance() {
   return instance
 }
 
-export function evalApis(request, result) {
-  request.value = {}
+export function evalApis(request, apiData) {
   const axiosInstance = createAxiosInstance()
-
-  for (let i = 0; i < result.length; i++) {
-    const { callPath, requestMethod, url, description } = result[i]
+  for (let i = 0; i < apiData.length; i++) {
+    const { callPath, requestMethod, url, description } = apiData[i]
     const paths = callPath.split('.')
     let now = request.value
     for (let j = 0; j < paths.length; j++) {
-      now[paths[j]] = {}
       if (j == paths.length - 1) {
         now[paths[j]] = (requestParams, requestData) => {
           const config = { method: requestMethod, url: url }
@@ -124,8 +116,10 @@ export function evalApis(request, result) {
           if (notEmpty(requestData)) config.data = requestData
           return axiosInstance(config)
         }
+      } else {
+        if (isEmpty(now[paths[j]])) now[paths[j]] = {}
+        now = now[paths[j]]
       }
-      now = now[paths[j]]
     }
   }
 }
