@@ -28,7 +28,7 @@
 </template>
 
 <script setup>
-import { useOptionStore } from '@/options'
+import { useOptionStore } from '@/stores/option'
 import { hasText } from '@/utils/common'
 import { ref } from 'vue'
 

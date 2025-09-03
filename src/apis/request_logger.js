@@ -1,4 +1,4 @@
-import { useOptionStore } from '@/options'
+import { useOptionStore } from '@/stores/option'
 
 /**
  * 请求发送日志
