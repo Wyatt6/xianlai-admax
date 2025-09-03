@@ -23,7 +23,7 @@ import Token from '@/utils/token'
 import { ElMessage } from 'element-plus'
 import { useSystemStore } from '@/stores/system'
 
-const builtInRoutes = [
+const routeTable = [
   {
     path: '/portal',
     redirect: '/portal/login',
@@ -57,7 +57,7 @@ const builtInRoutes = [
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: builtInRoutes
+  routes: routeTable
 })
 
 /**
