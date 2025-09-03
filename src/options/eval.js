@@ -25,9 +25,9 @@ export const defaultOptions = {
   }
 }
 
-export function evalOptions(data, result) {
+export function evalOptions(data, optionData) {
   data.value = defaultOptions
-  Object.entries(result).forEach(([key, valueObj]) => {
+  Object.entries(optionData).forEach(([key, valueObj]) => {
     if (hasText(valueObj.type) && hasText(valueObj.value)) {
       const keys = key.split('.')
       let now = data.value
