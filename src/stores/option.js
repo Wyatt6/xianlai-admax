@@ -16,6 +16,9 @@ export const useOptionStore = defineStore('option', () => {
     request: {
       timeout: 10000
     },
+    system: {
+      name: '闲来 Admax'
+    },
     portal: {
       coverImageType: 'local',
       coverImagePath: '/src/assets/images/portal/default-cover.jpg',
@@ -31,6 +34,20 @@ export const useOptionStore = defineStore('option', () => {
     },
     captcha: {
       length: 5
+    },
+    user: {
+      username: {
+        minLen: 5,
+        maxLen: 20,
+        regexp: '^[a-zA-Z][a-zA-Z_0-9]{4,19}$',
+        tips: '仅限大写、小写字母，数字，下划线(_)，必须以字母开头'
+      },
+      password: {
+        minLen: 6,
+        maxLen: 30,
+        regexp: '^[a-zA-Z_0-9.~!@#$%^&*?]{6,30}$',
+        tips: '仅限大写、小写字母，数字，下划线(_)，特殊字符(.~!@#$%^&*?)'
+      }
     }
   })
   const checksum = ref(null)
