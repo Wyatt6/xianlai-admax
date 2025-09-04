@@ -1,7 +1,7 @@
 /**
  * 参数使用方法：
- * const Options = useOptionStore()
- * Options.data.xxx.xxx
+ * const Option = useOptionStore()
+ * Option.data.xxx.xxx
  */
 
 import { defineStore } from 'pinia'
