@@ -1,7 +1,7 @@
 /**
  * 系统参数使用方法：
- * const Apis = useApiStore()
- * Apis.request.xxx.xxx(params, data)
+ * const Api = useApiStore()
+ * Api.request.xxx.xxx(params, data)
  *    .then(result => {
  *    })
  *    .catch(error => {
@@ -17,16 +17,10 @@ import { isEmpty } from '@/utils/common'
 
 const apiList = [
   {
-    description: '获取允许前端访问的系统参数',
-    callPath: 'admax.system.option.getOptions',
+    description: '获取初始化数据',
+    callPath: 'admax.system.init.getInitData',
     requestMethod: 'get',
-    url: '/api/admax/system/option/getOptions'
-  },
-  {
-    description: '获取接口',
-    callPath: 'admax.system.api.getApis',
-    requestMethod: 'get',
-    url: '/api/admax/system/api/getApis'
+    url: '/api/admax/system/init/getInitData'
   }
 ]
 
