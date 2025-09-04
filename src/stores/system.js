@@ -3,11 +3,19 @@ import { ref } from 'vue'
 import axios from 'axios'
 import { notEmpty, hasText } from '@/utils/common'
 import { useOptionStore } from './option'
+import { useApiStore } from '@/apis'
 
 export const useSystemStore = defineStore('system', () => {
   const initing = ref(false)
-  const data = ref({})
-  const checksum = ref({})
+  const logoutLock = ref(false)
+
+  function setLogoutLock() {
+    logoutLock.value = true
+  }
+
+  function releaseLogoutLock() {
+    logoutLock.value = false
+  }
 
   function initFail() {
     document.getElementById('init').style.display = 'none'
@@ -15,6 +23,7 @@ export const useSystemStore = defineStore('system', () => {
   }
 
   async function initialize(app) {
+    // 获取初始化数据
     if (!initing.value) {
       initing.value = true
       await axios
@@ -25,11 +34,9 @@ export const useSystemStore = defineStore('system', () => {
         .then(async response => {
           const result = response.data
           if (result.success) {
-            data.value = result.data
-            checksum.value = result.checksum
-            if (notEmpty(checksum.value) && notEmpty(data.value)) {
-              if (hasText(checksum.value.options) && notEmpty(data.value.options)) {
-                await useOptionStore().evalData(checksum.value.options, data.value.options)
+            if (notEmpty(result.checksum) && notEmpty(result.data)) {
+              if (hasText(result.checksum.options) && notEmpty(result.data.options)) {
+                await useOptionStore().evalData(result.checksum.options, result.data.options)
               }
             }
           } else {
@@ -46,14 +53,17 @@ export const useSystemStore = defineStore('system', () => {
         })
     }
 
+    // 加载接口对象
+    useApiStore().evalData()
+
     app.mount('#app')
   }
 
   async function resetStoreAndStorage() {}
 
   return {
-    data,
-    checksum,
+    setLogoutLock,
+    releaseLogoutLock,
     initialize,
     resetStoreAndStorage
   }

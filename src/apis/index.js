@@ -12,10 +12,10 @@
 
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import axios from 'axios'
-import { evalApis } from './eval'
+import { createAxiosInstance } from './instance'
+import { isEmpty } from '@/utils/common'
 
-const builtInApis = [
+const apiList = [
   {
     description: '获取允许前端访问的系统参数',
     callPath: 'admax.system.option.getOptions',
@@ -31,42 +31,33 @@ const builtInApis = [
 ]
 
 export const useApiStore = defineStore('api', () => {
-  const getting = ref(false)
   const request = ref({})
-  const checksum = ref(null)
 
-  function initBuiltInApis() {
-    evalApis(request, builtInApis)
-  }
-
-  async function getApis() {
-    if (!getting.value) {
-      getting.value = true
-      await axios
-        .get('/api/admax/system/api/getApis', {
-          headers: { 'Content-Type': 'application/json; charset=utf-8' },
-          timeout: 60000
-        })
-        .then(response => {
-          const result = response.data
-          if (result.success) {
-            evalApis(request, result.data.apis)
-            checksum.value = result.data.apisChecksum
+  function evalData() {
+    const axiosInstance = createAxiosInstance()
+    for (let i = 0; i < apiList.length; i++) {
+      const { callPath, requestMethod, url, description } = apiList[i]
+      const paths = callPath.split('.')
+      let now = request.value
+      for (let j = 0; j < paths.length; j++) {
+        if (j == paths.length - 1) {
+          now[paths[j]] = (requestParams, requestData) => {
+            const config = { method: requestMethod, url: url }
+            if (hasText(description)) config.desc = description
+            if (notEmpty(requestParams)) config.params = requestParams
+            if (notEmpty(requestData)) config.data = requestData
+            return axiosInstance(config)
           }
-        })
-        .catch(error => {
-          console.error(error)
-        })
-        .finally(() => {
-          getting.value = false
-        })
+        } else {
+          if (isEmpty(now[paths[j]])) now[paths[j]] = {}
+          now = now[paths[j]]
+        }
+      }
     }
   }
 
   return {
     request,
-    checksum,
-    initBuiltInApis,
-    getApis
+    evalData
   }
 })

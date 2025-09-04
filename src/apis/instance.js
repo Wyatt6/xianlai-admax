@@ -1,17 +1,20 @@
-//axios 配置详见：https://www.axios-http.cn/docs/req_config
 import axios from 'axios'
-import { useOptionStore } from '@/options'
-import RequestLogger from './request_logger'
-import Logger from '@/utils/logger'
 import { ElMessage } from 'element-plus'
-import { isEmpty, hasText } from '@/utils/common'
+import { useSystemStore } from '@/stores/system'
+import { useOptionStore } from '@/stores/option'
+import router from '@/router'
+import Token from '@/utils/token'
+import Logger from '@/utils/logger'
+import RequestLogger from './request_logger'
 
-function createAxiosInstance() {
-  const Options = useOptionStore()
+export function createAxiosInstance() {
+  const System = useSystemStore()
+  const Option = useOptionStore()
 
+  //axios 配置详见：https://www.axios-http.cn/docs/req_config
   const instance = axios.create({
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
-    timeout: Options.data.request.timeout
+    timeout: Option.data.request.timeout
     // ...其他配置使用axios的默认值
   })
 
@@ -20,8 +23,17 @@ function createAxiosInstance() {
     /**
      * 在发送请求之前做些什么
      */
-    function (config) {
-      // TODO 请求附加数据处理
+    async function (config) {
+      if (Token.hasToken()) {
+        if (Token.isExpired()) {
+          Logger.log('登录已过期，重定向到登录页面')
+          await System.resetStoreAndStorage()
+          router.push('/portal/login')
+          return Promise.reject(new Error('登录已过期，请重新登录'))
+        } else {
+          config.headers.token = `${Token.getToken()}` // 在报文头中注入token
+        }
+      }
       RequestLogger.send.info(config)
       return config
     },
@@ -41,25 +53,32 @@ function createAxiosInstance() {
      * 2xx 范围内的状态码都会触发该函数
      * 仅代表了技术上成功返回（状态码2xx），但响应报文可能是业务成功处理，也可能是系统错误或者业务处理异常
      */
-    function (response) {
+    async function (response) {
       const config = response.config
       const result = response.data
       RequestLogger.receive.info(config, result)
-      if (result.data && hasText(result.data.optionsChecksum)) {
-        if (Options.checksum == null || Options.checksum != result.data.optionsChecksum) {
-          Logger.log('系统参数有变更，获取新数据')
-          Options.getOptions()
-        }
-      }
-      if (result.data && hasText(result.data.apisChecksum)) {
-        if (Apis.checksum == null || Apis.checksum != result.data.apisChecksum) {
-          Logger.log('系统接口有变更，获取新数据')
-          Apis.getApis()
-        }
-      }
       if (!result.success && result.data && result.data.code) {
         // 分支1: 后端返回有错误码时统一处理
-        // TODO 处理后端通过错误码返回的401、403等错误
+        // 401-未登录：清除缓存，重定向到登录页面
+        if (result.data.code === 401) {
+          Logger.log('401-登录已过期，跳转到登陆页面')
+          ElMessage.error('登录已过期，请重新登录')
+          System.setLogoutLock()
+          await System.resetStoreAndStorage()
+          await router.push('/portal/login')
+          System.releaseLogoutLock()
+          return Promise.reject(new Error('登录已过期，请重新登录'))
+        }
+        // 其他只需要提示的错误：400-请求参数错误、403-用户权限不足、500-服务器内部错误
+        if (result.data.code === 400 || result.data.code === 500) {
+          if (result.message) {
+            ElMessage.error(result.message)
+            return Promise.reject(new Error(result.message))
+          } else {
+            ElMessage.error('' + result.data.code + '错误')
+            return Promise.reject(new Error(result.data.code))
+          }
+        }
         // 对于以上集中错误处理以外未列出的情况，返回给调用方处理
         return result
       } else {
@@ -99,27 +118,4 @@ function createAxiosInstance() {
   )
 
   return instance
-}
-
-export function evalApis(request, apiData) {
-  const axiosInstance = createAxiosInstance()
-  for (let i = 0; i < apiData.length; i++) {
-    const { callPath, requestMethod, url, description } = apiData[i]
-    const paths = callPath.split('.')
-    let now = request.value
-    for (let j = 0; j < paths.length; j++) {
-      if (j == paths.length - 1) {
-        now[paths[j]] = (requestParams, requestData) => {
-          const config = { method: requestMethod, url: url }
-          if (hasText(description)) config.desc = description
-          if (notEmpty(requestParams)) config.params = requestParams
-          if (notEmpty(requestData)) config.data = requestData
-          return axiosInstance(config)
-        }
-      } else {
-        if (isEmpty(now[paths[j]])) now[paths[j]] = {}
-        now = now[paths[j]]
-      }
-    }
-  }
 }
