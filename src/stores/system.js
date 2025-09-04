@@ -7,6 +7,8 @@ import { useApiStore } from '@/apis'
 
 export const useSystemStore = defineStore('system', () => {
   const initing = ref(false)
+  const data = ref({})
+  const checksum = ref({})
   const logoutLock = ref(false)
 
   function setLogoutLock() {
@@ -22,6 +24,24 @@ export const useSystemStore = defineStore('system', () => {
     document.getElementById('initFail').style.display = 'flex'
   }
 
+  function checkChecksum(oldChecksum, newChecksum) {
+    const newKeys = Object.keys(newChecksum)
+    for (let i = 0; i < newKeys.length; i++) {
+      const k = newKeys[i]
+      if (!hasText(oldChecksum[k]) || oldChecksum[k] !== newChecksum[k]) {
+        return false
+      }
+    }
+    const oldKeys = Object.keys(oldChecksum)
+    for (let i = 0; i < oldKeys.length; i++) {
+      const k = oldKeys[i]
+      if (!hasText(newChecksum[k]) || newChecksum[k] !== oldChecksum[k]) {
+        return false
+      }
+    }
+    return true
+  }
+
   async function initialize(app) {
     // 获取初始化数据
     if (!initing.value) {
@@ -35,6 +55,8 @@ export const useSystemStore = defineStore('system', () => {
           const result = response.data
           if (result.success) {
             if (notEmpty(result.checksum) && notEmpty(result.data)) {
+              data.value = result.data
+              checksum.value = result.checksum
               if (hasText(result.checksum.options) && notEmpty(result.data.options)) {
                 await useOptionStore().evalData(result.checksum.options, result.data.options)
               }
@@ -56,15 +78,18 @@ export const useSystemStore = defineStore('system', () => {
     // 加载接口对象
     useApiStore().evalData()
 
-    app.mount('#app')
+    if (app != null) app.mount('#app')
   }
 
   async function resetStoreAndStorage() {}
 
   return {
+    data,
+    checksum,
     setLogoutLock,
     releaseLogoutLock,
     initialize,
-    resetStoreAndStorage
+    resetStoreAndStorage,
+    checkChecksum
   }
 })

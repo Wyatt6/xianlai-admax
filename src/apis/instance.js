@@ -57,6 +57,12 @@ export function createAxiosInstance() {
       const config = response.config
       const result = response.data
       RequestLogger.receive.info(config, result)
+
+      if (!System.checkChecksum(System.checksum, result.checksum)) {
+        Logger.log('初始化数据checksum发生变化，重新获取初始化数据')
+        await System.initialize()
+      }
+
       if (!result.success && result.data && result.data.code) {
         // 分支1: 后端返回有错误码时统一处理
         // 401-未登录：清除缓存，重定向到登录页面
