@@ -13,7 +13,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { createAxiosInstance } from './instance'
-import { isEmpty } from '@/utils/common'
+import { isEmpty, hasText, notEmpty } from '@/utils/common'
 
 const apiList = [
   {
