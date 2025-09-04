@@ -14,14 +14,14 @@
       </el-card>
     </div>
     <div class="footer">
-      <span v-if="hasText(Options.data.portal.footerCopyright)">{{ Options.data.portal.footerCopyright }}</span>
-      <span v-if="hasText(Options.data.portal.footerBeianIcp)">&nbsp;&nbsp;</span>
-      <a v-if="hasText(Options.data.portal.footerBeianIcp)" target="_blank" href="https://beian.miit.gov.cn/">
-        {{ Options.data.portal.footerBeianIcp }}
+      <span v-if="hasText(Option.data.portal.footerCopyright)">{{ Option.data.portal.footerCopyright }}</span>
+      <span v-if="hasText(Option.data.portal.footerBeianIcp)">&nbsp;&nbsp;</span>
+      <a v-if="hasText(Option.data.portal.footerBeianIcp)" target="_blank" href="https://beian.miit.gov.cn/">
+        {{ Option.data.portal.footerBeianIcp }}
       </a>
-      <span v-if="hasText(Options.data.portal.footerBeianGongan)">&nbsp;&nbsp;</span>
-      <a v-if="hasText(Options.data.portal.footerBeianGongan)" target="_blank" href="https://beian.mps.gov.cn/">
-        {{ Options.data.portal.footerBeianGongan }}
+      <span v-if="hasText(Option.data.portal.footerBeianGongan)">&nbsp;&nbsp;</span>
+      <a v-if="hasText(Option.data.portal.footerBeianGongan)" target="_blank" href="https://beian.mps.gov.cn/">
+        {{ Option.data.portal.footerBeianGongan }}
       </a>
     </div>
   </div>
@@ -32,19 +32,19 @@ import { useOptionStore } from '@/stores/option'
 import { hasText } from '@/utils/common'
 import { ref } from 'vue'
 
-const Options = useOptionStore()
+const Option = useOptionStore()
 
 const coverImage = ref()
 function initCoverImage() {
-  const type = Options.data.portal.coverImageType
+  const type = Option.data.portal.coverImageType
   let coverUrl
   if (type === 'web') {
-    coverImage.value = `url(${Options.data.portal.coverImagePath})`
+    coverImage.value = `url(${Option.data.portal.coverImagePath})`
   } else if (type === 'upload') {
     // TODO 用上传的图片做门户封面
   } else if (type === 'local') {
     coverUrl = new URL('/', import.meta.url)
-    coverUrl.pathname = Options.data.portal.coverImagePath
+    coverUrl.pathname = Option.data.portal.coverImagePath
     coverImage.value = `url(${coverUrl})`
   } else {
     coverImage.value = `url(/src/assets/images/portal/default-cover.jpg)`
@@ -52,12 +52,12 @@ function initCoverImage() {
 }
 initCoverImage()
 
-const coverTitle = ref(Options.data.portal.coverTitle)
-const coverTitleSize = ref(`${Options.data.portal.coverTitleSize}rem`)
-const coverTitleColor = ref(Options.data.portal.coverTitleColor)
-const coverSubTitle = ref(Options.data.portal.coverSubTitle)
-const coverSubTitleSize = ref(`${Options.data.portal.coverSubTitleSize}rem`)
-const coverSubTitleColor = ref(Options.data.portal.coverSubTitleColor)
+const coverTitle = ref(Option.data.portal.coverTitle)
+const coverTitleSize = ref(`${Option.data.portal.coverTitleSize}rem`)
+const coverTitleColor = ref(Option.data.portal.coverTitleColor)
+const coverSubTitle = ref(Option.data.portal.coverSubTitle)
+const coverSubTitleSize = ref(`${Option.data.portal.coverSubTitleSize}rem`)
+const coverSubTitleColor = ref(Option.data.portal.coverSubTitleColor)
 </script>
 
 <style lang="scss" scoped>
