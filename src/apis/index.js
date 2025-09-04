@@ -18,9 +18,15 @@ import { isEmpty } from '@/utils/common'
 const apiList = [
   {
     description: '获取初始化数据',
-    callPath: 'admax.system.init.getInitData',
+    callPath: 'system.init.getInitData',
     requestMethod: 'get',
     url: '/api/admax/system/init/getInitData'
+  },
+  {
+    description: '获取验证码',
+    callPath: 'system.captcha.getCaptcha',
+    requestMethod: 'get',
+    url: '/api/admax/system/captcha/getCaptcha'
   }
 ]
 
