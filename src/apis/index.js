@@ -27,6 +27,12 @@ const apiList = [
     callPath: 'system.captcha.getCaptcha',
     requestMethod: 'get',
     url: '/api/admax/system/captcha/getCaptcha'
+  },
+  {
+    description: '注册新用户',
+    callPath: 'iam.user.register',
+    requestMethod: 'post',
+    url: '/api/admax/iam/user/register'
   }
 ]
 
