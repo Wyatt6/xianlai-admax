@@ -48,6 +48,10 @@ export const useOptionStore = defineStore('option', () => {
         regexp: '^[a-zA-Z_0-9.~!@#$%^&*?]{6,30}$',
         tips: '仅限大写、小写字母，数字，下划线(_)，特殊字符(.~!@#$%^&*?)'
       }
+    },
+    content: {
+      termsOfUse: '使用条款未发布',
+      privacyPolicy: '隐私保护政策未发布'
     }
   })
   const checksum = ref(null)
